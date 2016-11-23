@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>actor network tool</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+    <link href="css/navbar-fixed-top.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="css/MyFontsWebfontsKit.css">
+<style>
+
+.node rect {
+  cursor: move;
+  shape-rendering: crispEdges;
+}
+
+.node text {
+  color: "#333333";
+  
+}
+
+.link {
+  fill: none;
+  stroke-opacity: .9;
+}
+
+.link:hover {
+  stroke-opacity: .5;
+}
+
+</style>
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <img src="img/logoANT80-01.png" alt="Actor Network Logo" style="float:left;vertical-align:bottom;width:48px;height:48px;">
+          <a class="navbar-brand" href="#" style="padding-left:32px;fill:#515151" >Actor Network Tool</a>
+                  </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="#intro">About</a></li>
+            <li><a href="#features">Network Articulations</a></li>
+            <li><a href="#form">Data Formatting</a></li>
+            <!--<li><a href="#quant">Quantitative Demo</a></li>
+            <li><a href="#qual">Qualitative Demo</a></li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Generators <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+              <li><a href="#">Web Generator</a></li>
+              <li><a href="#">Omeka Plug-In</a></li>
+              <li><a href="#">Wordpress Plug-In</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documentation <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">PDF Tutorials</a></li>
+                <li><a href="#">Vimeo Tutorials</a></li>
+                <li><a href="#">Github Wiki</a></li>
+                <li><a href="#">Github Repository</a></li>
+                </ul>
+            </li>
+
+            <li><a href="#contact">Contact</a></li>-->
+            
+          </ul>
+          <!--<ul class="nav navbar-nav navbar-right">
+            <li><a href="../navbar/">Default</a></li>
+            <li><a href="../navbar-static-top/">Static top</a></li>
+            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+          </ul>-->
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="jumbotron" id="intro">
+        <h2>actor network tool</h2>
+        <h4>Embedded Connections, inflections, & feedback</h4><br>
+       <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+        <p>To see the difference between static and fixed top navbars, just scroll.</p>
+      </div>
+      <div id="features">
+        <br>
+        <h2 style="text-align:center; padding-top:20px">articulation options</h2>
+        <p style="text-align:center;line-height:0px">click for demos: connection types and styling, interactive and interpretive features</p><br>
+        <span class= "col-md-2">
+            <h4> nodes </h4>
+            <form>
+              <input type="radio" name="nOpt" value="defaultNodes" onchange="opt=radioC()" checked> default nodes<br>
+              <input type="radio" name="nOpt" value="embeddedArrows" onchange="opt=radioC()"> embedded arrows<br>
+              <input type="radio" name="nOpt" value="expandedArrows" onchange="opt=radioC()" > expanded arrows<br> 
+              <input type="radio" name="nOpt" value="bracketIcons" onchange="opt=radioC()" > bracket icons
+            </form>      
+        </span>
+        <span class= "col-md-2">
+            <h4> links </h4>
+            <form>
+              <input type="radio" name="lOpt" value="defaultLinks" onchange="opt=radioC()" checked> default links<br>
+              <input type="radio" name="lOpt" value="addLoss" onchange="opt=radioC()"> add/loss links<br>
+              <input type="radio" name="lOpt" value="feedback" onchange="opt=radioC()"> feedback links<br> 
+              <input type="radio" name="lOpt" value="percent" onchange="opt=radioC()"> percent links
+            </form> 
+        </span>
+        <span class= "col-md-2">
+            <h4> color & text</h4>
+            <form>
+              <input type="radio" name="cOpt" value="defaultColor" onchange="opt=radioC()" checked> black & white<br>
+              <input type="radio" name="cOpt" value="greysContrast" onchange="opt=radioC()"> greys & contrast<br>
+              <input type="radio" name="cOpt" value="colorGradients" onchange="opt=radioC()"> color gradients<br> 
+              <input type="radio" name="cOpt" value="googleFonts" onchange="opt=radioC()" > google fonts
+            </form> 
+        </span>
+        <span class= "col-md-2">
+            <h4> overlays </h4>
+            <form>
+              <input type="radio" name="oOpt" value="defaultTooltips" onchange="opt=radioC()" checked> tooltips variations<br>
+              <input type="radio" name="oOpt" value="timeS" onchange="opt=radioC()"> time series<br>
+              <input type="radio" name="oOpt" value="typeS" onchange="opt=radioC()"> type series<br> 
+              <input type="radio" name="oOpt" value="background" onchange="opt=radioC()"> background images
+            </form>  
+        </span>
+        <span class= "col-md-2">
+            <h4> stories </h4>
+            <form>
+              <input type="radio" name="sOpt" value="database" onchange="opt=radioC()" checked> database uploads<br>
+              <input type="radio" name="sOpt" value="iconNav" onchange="opt=radioC()"> icon navigation<br>
+              <input type="radio" name="sOpt" value="linkNav" onchange="opt=radioC()" > linked narratives<br> 
+              <input type="radio" name="sOpt" value="layoutNav" onchange="opt=radioC()" > layout options
+            </form>  
+        </span>
+        <span class= "col-md-2">
+            <h4> (embeds)</h4>
+            <form>
+              <input type="radio" name="eOpt" value="print/save" id="eOpt" checked> print/save<br>
+              <input type="radio" name="eOpt" value="htmlEmbeds" id="eOptA1"> html embeds<br>
+              <input type="radio" name="eOpt" value="webGen" id="eOptA2" > web generator<br> 
+              <input type="radio" name="eOpt" value="CMS" id="eOptB" > cms plug-ins
+            </form>  
+        </span>
+      </div>
+      <div id="notes" style="padding-top:120px">
+        <br>
+      <p id="chartSize" style="text-transform: capitalize">Drag Nodes to reposition, Hoover/Click on Titles for interaction </p>
+      <p style="font-size:12px; text-transform: capitalize">Note: Demonstration below don't provide full range of choices, but rather type of choices under development; alternate data structures link to different tables, see <a href:"/#form"> Data Formatting </a> for details </p>
+      </div>
+<div id="chart"></div>
+      <div id="extras">
+      </div>
+      <div id="form">
+      </div> 
+    </div> <!-- /container -->
+
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/sankeyAlt.js"></script>
+<script src="js/colorbrewer.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+    
+
+<script>
+
+//--------------------------- radio check-------------------------------------------
+      var radioOption={};
+      var opt={};
+
+
+      function radioC(){
+          var opts=['nOpt', 'lOpt', 'cOpt', 'oOpt', 'sOpt', 'eOpt'];
+          var optsKey=['n', 'l','c','o', 's', 'e'];
+
+        for (var i = 0; i < opts.length; i++) {
+          var eleN = document.getElementsByName(opts[i]);
+          var eleKey=optsKey[i];
+
+          for (var j=0; j<eleN.length; j++){
+            if (eleN[j].checked) {
+                radioOption[eleKey]=eleN[j].value;
+            }
+          };
+        };
+
+        //opt=radioOption;
+        console.log(radioOption); // to get a sense of updates
+        return radioOption;
+      };
+     
+opt=radioC();
+
+
+
+
+
+//----------------------------------------------------------------------------------
+	
+var units = "Units";
+
+var margin = {top: 20, right: 60, bottom: 60, left: 60},
+    width = 1100,
+    height = 400 - margin.top - margin.bottom;
+
+
+  if (opt.c==="colorGradients"){
+      var formatNumber = d3.format(",.0f"),    // zero decimal places
+      format = function(d) { return formatNumber(d) + " " + units; },
+          color = d3.scale.ordinal()
+          .domain([0, 1])
+          .range(colorbrewer.YlGnBu[9]);
+      } else if (opt.c==="greysContrast"){
+      var formatNumber = d3.format(",.0f"),    // zero decimal places
+      format = function(d) { return formatNumber(d) + " " + units; },
+          color = d3.scale.ordinal()
+          .domain([0, 1])
+          .range(colorbrewer.Greys[9]);
+
+      } else {
+      var formatNumber = d3.format(",.0f"),    // zero decimal places
+      format = function(d) { return formatNumber(d) + " " + units; },
+          color = d3.scale.ordinal()
+          .domain([.65, .75])
+          .range(["#333","#333"]);
+      };
+
+
+
+
+// append the svg canvas to the page
+var svg = d3.select("#chart").append("svg")
+    .attr("width", width)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + 0 + "," + margin.top + ")");
+
+    //var groupnodes = svg.append("g");
+    var grouplines2 = svg.append("g");
+    var grouplines=svg.append("g");
+    var groupnodes = svg.append("g");
+    var groupicons = svg.append("g"); // options for visuals
+
+// Set the sankey diagram properties
+var sankey = d3.sankey()
+    .nodeWidth(48)
+    .nodePadding(100)
+    .size([width-48, height]);
+
+var path = sankey.link();
+
+// load the data (using the timelyportfolio csv method)
+d3.csv("data/sankey.csv", function(error, data) {
+
+  //set up graph in same style as original example but empty
+  graph = {"nodes" : [], "links" : [], "adding":[], "loss":[], "loop":[]};
+
+    data.forEach(function (d) {
+      if (d.type===""){
+        graph.nodes.push({ "name": d.source });
+        graph.nodes.push({ "name": d.target });
+
+        graph.links.push({ "source": d.source,
+                         "target": d.target,
+                         "type": d.type,
+                         "value": +d.value }); 
+
+      } 
+      else if (d.type==="adding"){ // this is presuming no internal value addition, yet..
+        graph.nodes.push({ "name": d.target });
+
+        graph.adding.push({"name": d.source,
+                        "source":d.source,
+                        "target": d.target,
+                         "type": d.type,
+                         "value": +d.value});
+      } else if (d.type==="loss"){
+        graph.nodes.push({ "name": d.source });
+
+        graph.loss.push({"name": d.target,
+                        "source":d.source,
+                        "target": d.target,
+                         "type": d.type,
+                         "value": +d.value});
+      } else if (d.type==="loop"){
+        graph.nodes.push({ "name": d.source });
+        graph.nodes.push({ "name": d.target });
+
+        graph.loop.push({"source":d.source,
+                        "target": d.target,
+                         "type": d.type,
+                         "value": +d.value});
+      };
+      });
+
+    console.log(graph);
+
+     // return only the distinct / unique nodes
+     graph.nodes = d3.keys(d3.nest()
+      //graph.nodes = d3.nest()
+       .key(function (d) { return d.name; })
+       .map(graph.nodes));
+
+     //console.log(graph);
+
+     // loop through each link replacing the text with its index from node
+     graph.links.forEach(function (d, i) {
+       graph.links[i].source = graph.nodes.indexOf(graph.links[i].source);
+       graph.links[i].target = graph.nodes.indexOf(graph.links[i].target);
+       graph.links[i].scolor = color(graph.nodes[graph.links[i].source].replace(/ .*/, "")); // color( name.replace....)
+       graph.links[i].tcolor = color(graph.nodes[graph.links[i].target].replace(/ .*/, ""));
+
+        var gradient = svg.append("defs")
+          .append("linearGradient")
+          .attr("id", "grad"+i);
+
+
+          //gradient.attr("x1", graph.links[i].source.x)
+              //.attr("y1", graph.links[i].source.y)
+              //.attr("x2", graph.links[i].target.x)
+              //.attr("y2", graph.links[i].target.y);
+
+          gradient.append("stop")
+                  .attr("offset", "0%")
+                  .attr("stop-color", graph.links[i].scolor)
+                  .attr("stop-opacity", 1);
+
+          gradient.append("stop")
+                  .attr("offset", "100%")
+                  .attr("stop-color", graph.links[i].tcolor)
+                  .attr("stop-opacity", 1);
+       //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
+     });
+
+         // loop through each link replacing the text with its index from node
+     graph.adding.forEach(function (d, i) {
+       graph.adding[i].source = graph.nodes.indexOf(graph.adding[i].source); //should give a -1 index ... if get -1, search other links and take their x half way between areas
+       graph.adding[i].target = graph.nodes.indexOf(graph.adding[i].target);
+       graph.adding[i].scolor = "#ffffff"; // color( name.replace....)
+       graph.adding[i].tcolor = color(graph.nodes[graph.adding[i].target].replace(/ .*/, ""));
+
+        var gradient = svg.append("defs")
+          .append("linearGradient")
+          .attr("id", "gradA"+i);
+
+
+          //gradient.attr("x1", graph.links[i].source.x)
+              //.attr("y1", graph.links[i].source.y)
+              //.attr("x2", graph.links[i].target.x)
+              //.attr("y2", graph.links[i].target.y);
+
+          gradient.append("stop")
+                  .attr("offset", "0%")
+                  .attr("stop-color", graph.adding[i].scolor)
+                  .attr("stop-opacity", 0);
+
+          gradient.append("stop")
+                  .attr("offset", "100%")
+                  .attr("stop-color", graph.adding[i].tcolor)
+                  .attr("stop-opacity", 1);
+       //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
+     });
+
+     graph.loss.forEach(function (d, i) {
+       graph.loss[i].source = graph.nodes.indexOf(graph.loss[i].source); 
+       graph.loss[i].target = graph.nodes.indexOf(graph.loss[i].target); //should give a -1 index ... if get -1, search other links and take their x half way between areas
+       graph.loss[i].tcolor = "#ffffff"; // color( name.replace....)
+       graph.loss[i].scolor = color(graph.nodes[graph.loss[i].source].replace(/ .*/, ""));
+
+        var gradient = svg.append("defs")
+          .append("linearGradient")
+          .attr("id", "gradL"+i);
+
+
+          //gradient.attr("x1", graph.links[i].source.x)
+              //.attr("y1", graph.links[i].source.y)
+              //.attr("x2", graph.links[i].target.x)
+              //.attr("y2", graph.links[i].target.y);
+
+          gradient.append("stop")
+                  .attr("offset", "0%")
+                  .attr("stop-color", graph.loss[i].scolor)
+                  .attr("stop-opacity", 1);
+
+          gradient.append("stop")
+                  .attr("offset", "100%")
+                  .attr("stop-color", graph.loss[i].tcolor)
+                  .attr("stop-opacity", 0);
+       //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
+     });
+
+     console.log(graph.adding);
+
+     //now loop through each nodes to make nodes an array of objects
+     // rather than an array of strings
+     graph.nodes.forEach(function (d, i) {
+       graph.nodes[i] = { "name": d };
+     });
+
+  sankey // so just to summing equations here.....graph = {"nodes" : [], "links" : [], "add":[], "loss":[], "loop":[]};
+    .nodes(graph.nodes)
+    .links(graph.links)
+    .adding(graph.adding)
+    .loss(graph.loss)
+    //.loop(graph.loop) // second round of reworking.
+    .layout(32);
+
+console.log(graph.nodes);
+console.log(graph.adding);
+
+function addingCurve (){
+    graph.adding.forEach(function(d){
+      var nodeC=d.target;
+      console.log(d.target);
+      var xPos=nodeC.x;
+      var yPos=nodeC.y+nodeC.dy-(nodeC.dy/nodeC.value*d.value/2);//top+depth-half of value
+      d.stroke = nodeC.dy/nodeC.value*d.value;
+
+      var xStart=[0];
+      nodeC.targetLinks.forEach(function(targetL, i){
+        if ((targetL.source.x+targetL.source.dx)>xStart[0]){
+          xStart[0]=(targetL.source.x+targetL.source.dx);
+        };
+      });
+
+      var xPos0=(xPos-Number(xStart))/2+Number(xStart);
+
+      var curvature = .5;
+
+          var x0 = xPos0,
+              x01= xPos0-10,
+              x1 = xPos,
+              xi = d3.interpolateNumber(x0, x1),
+              x2 = xi(curvature),
+              x3 = xi(1 - curvature),
+              y0 = height + margin.top,
+              y01= height + margin.top-20,
+              y1 = yPos;
+           d.path="M" + x0 + "," + y0
+                //+ "C" + x0+","+y0
+               + "C" + x2 + "," + y01
+               + " " + x3 + "," + y1
+               + " " + x1 + "," + y1;
+
+               console.log(d.path);
+        
+    });
+};
+addingCurve();
+
+function lossCurve (){
+  var sy=0;
+  var n=0;
+  var nodeThis='';
+
+  graph.loss.forEach(function(d){
+          var nodeC=d.source;
+          if (nodeC!==nodeThis){
+            nodeThis=nodeC;
+            sy=0;
+            n=0;
+          } else {
+            n++;
+          };
+          console.log(d.source);
+          var xPos=nodeC.x+nodeC.dx;
+          var yPos=sy+nodeC.y+(nodeC.dy/nodeC.value*d.value/2);
+          sy+=(nodeC.dy/nodeC.value*d.value);
+          d.stroke = nodeC.dy/nodeC.value*d.value; //top+depth-half of value
+
+          var xStart=[width];
+          nodeC.sourceLinks.forEach(function(targetL, i){
+            if ((targetL.target.x)>xPos&(targetL.target.x)<xStart[0]){
+              xStart[0]=(targetL.target.x);
+            };
+          });
+
+          var xPos0=(Number(xStart)-xPos)/2+Number(xPos)+n*50;
+
+          var curvature = .5;
+
+              var x0 = xPos,
+                  x1 = xPos0,
+                  xi = d3.interpolateNumber(x0, x1),
+                  x2 = xi(curvature),
+                  x3 = xi(1 - curvature),
+                  y0 = yPos,
+                  y01= 20,
+                  y1 = 0;
+               d.path="M" + x0 + "," + y0
+                   + "C" + x2 + "," + y0
+                   + " " + x3 + "," + y1
+                   //+ " " + x3 + "," + y01
+                   + " " + x1 + "," + y1;
+
+                   console.log(d.path);
+            
+        });
+};
+lossCurve();
+
+
+/* graph.adding[i].target = node number it connects to > so nodes[...]
+  find the node links (ie target links)
+  compare the lenght of said d.x of origin nodes to target node...grab shortest distance and take the x position of halfway to note... = x0, 
+  x1 being the target node d.x... run the link/line generating version on both adds and losses here.
+
+*/
+
+//check options or update options
+ if (jQuery.isEmptyObject(opt)|| opt!=radioC()){
+    opt=radioC();
+ };  
+
+//console.log(opt);
+var gFont='';
+var gFontp='';
+
+if (opt.c==="googleFonts"){
+  $("head").append("<link href='https://fonts.googleapis.com/css?family=Fugaz+One|Josefin+Slab' rel='stylesheet'>");
+  gFont="Fugaz One";
+  gFontp="Josefin Slab"; 
+}
+
+
+// add in the links
+  var link = grouplines.selectAll(".link")
+      .data(graph.links)
+    .enter().append("path")
+      .attr("class", "link")
+      .attr("d", path)
+      .style("stroke-width", function(d) { return Math.max(1, d.dy); })
+      .attr("stroke", function(d, i){
+              return "url(#grad"+i+")";}) 
+              //return d.scolor;})
+      .sort(function(a, b) { return b.dy - a.dy; });
+
+// add the link titles
+  link.append("title")
+        .text(function(d) {
+    		return d.source.name + " → " + 
+                d.target.name + "\n" + format(d.value); });
+
+var adding = grouplines2.selectAll(".adding")
+      .data(graph.adding)
+    .enter().append("path")
+      .attr("class", "adding")
+      .attr("d", function(d){
+        return d.path;})
+      .style("stroke-width", function(d) { 
+            console.log("adding:" + d);
+             return Math.max(1, d.stroke); })
+      .attr("stroke", function(d, i){
+              return "url(#gradA"+i+")";})
+      .attr("opacity", .9)
+      .attr("fill", "none");
+              //return d.scolor;})
+      //.sort(function(a, b) { return b.dy - a.dy; });
+  adding.append("title")
+        .text(function(d) {
+        return d.name + " → " + 
+                d.target.name + "\n" + format(d.value); });
+
+
+var loss = grouplines2.selectAll(".loss")
+      .data(graph.loss)
+    .enter().append("path")
+      .attr("class", "loss")
+      .attr("d", function(d){
+        return d.path;})
+      .style("stroke-width", function(d) { 
+            console.log("adding:" + d);
+             return Math.max(1, d.stroke); })
+      .attr("stroke", function(d, i){
+              return "url(#gradL"+i+")";})
+      .attr("opacity", .9)
+      .attr("fill", "none");
+              //return d.scolor;})
+      //.sort(function(a, b) { return b.dy - a.dy; });
+
+  loss.append("title")
+        .text(function(d) {
+        return d.name + " → " + 
+                d.target.name + "\n" + format(d.value); });
+
+
+// add in the nodes
+  var node = groupnodes.selectAll(".node")
+      .data(graph.nodes)
+    .enter().append("g")
+      .attr("class", "node")
+      .attr("id", function(d){ return d.name})
+      .attr("transform", function(d) { 
+		    return "translate(" + d.x + "," + d.y + ")"; })
+    .call(d3.behavior.drag()
+      .origin(function(d) { return d; })
+      .on("dragstart", function() { 
+		      this.parentNode.appendChild(this); })
+      .on("drag", dragmove));
+
+      var triFunction = d3.svg.line()
+                        .x(function(d) { return d.x; })
+                         .y(function(d) { return d.y; })
+                         .interpolate("linear");
+
+
+
+    graph.nodes.forEach(function(d){ // the coordinates for all arrow systems
+        var lineData=[{"x":d.dx, "y":-5}, {"x":d.dx+5, "y":-5}, {"x":.33*d.dy+d.dx+5, "y":d.dy/2}, {"x":d.dx+5, "y":d.dy+5}, {"x":d.dx, "y":d.dy+5}, {"x":d.dx, "y":0}];
+        var lineData0=[{"x":d.dx+5, "y":-5}, {"x":.33*d.dy+d.dx+5, "y":d.dy/2}, {"x":d.dx+5, "y":d.dy+5}]; //excess arrows white line
+
+        //var lineData1=[{"x":5, "y":0}, {"x":d.dx/4*3, "y":0}, {"x":d.dx, "y":d.dy/2}, {"x":d.dx/4*3, "y":d.dy}, {"x":5, "y":d.dy}, {"x":d.dx/2, "y":d.dy/2}, {"x":5, "y":0}]; //embedded arrow white out
+       var lineData1=[{"x":5, "y":0}, {"x":d.dx/8*7, "y":0}, {"x":d.dx, "y":d.dy/2}, {"x":d.dx/8*7, "y":d.dy}, {"x":5, "y":d.dy}, {"x":d.dx/2, "y":d.dy/2}, {"x":5, "y":0}]; //embedded arrow white out
+
+        var lineData2=[{"x":5, "y":5}, {"x":d.dx-5, "y":5}, {"x":d.dx-5, "y":d.dy-5}, {"x":5, "y":d.dy-5}];
+        var lineData2a=[{"x":(5+d.dx/10), "y":0}, {"x":(d.dx-5-d.dx/10), "y":0}, {"x":(d.dx-5-d.dx/10), "y":d.dy}, {"x":(5+d.dx/10), "y":d.dy}];
+
+
+        //console.log(lineData);
+        d.arrow=triFunction(lineData);
+        d.arrow0=triFunction(lineData0);
+        d.arrow1=triFunction(lineData1);
+        d.arrow2=triFunction(lineData2);
+        d.arrow2a=triFunction(lineData2a);
+      });
+
+      //console.log(graph.nodes);
+      //console.log(width+margin.right*2);
+
+  //-------------------------------adding the different articulations/arrows----------------------------------------------    
+
+  // add the rectangles for the nodes (white plus transparency)
+    node.append("rect")
+      .attr("height", function(d) { return d.dy; })
+      .attr("width", sankey.nodeWidth())
+      .attr("opacity", 1)
+      .style("fill", "#ffffff");
+
+  node.append("rect")
+      .attr("height", function(d) { return d.dy; })
+      .attr("width", sankey.nodeWidth())
+      .attr("opacity", .9)
+      .style("fill", function(d) { 
+      return d.color = color(d.name.replace(/ .*/, "")); })
+      .style("stroke", function(d) { 
+      return d.color = color(d.name.replace(/ .*/, "")); })
+      .attr("stroke-width", .25)
+    .append("title")// correct this later...
+      .text(function(d) { 
+      return d.name + "\n" + format(d.value); });
+
+      //------------------------------- arrow and overlay options-----------------------------------------------------------
+
+        if (opt.n==="embeddedArrows"){
+
+           node.append("path") //trianglar mask on node
+                  .attr("d", function(d){
+                      return d.arrow1;
+                  })
+                  .style("fill", function(d) {
+                  if (d.x<100 || (width+margin.right*2)-d.x<200){
+                      return "none";
+                  } else {
+                      return "#ffffff"; }})
+                  .style("stroke", function(d) {
+                  if (d.x<100 || (width+margin.right*2)-d.x<200){
+                      return "none";
+                  } else {
+                      return "#ffffff"; }})
+                  .attr("opacity", 1)
+                  .attr("cursor", "move");
+
+        };
+
+        if (opt.n==="bracketIcons"){
+
+           node.append("path") //trianglar mask on node
+                  .attr("d", function(d){
+                      return d.arrow2;
+                  })
+                  .style("fill", "#ffffff")
+                  .attr("opacity", 1);
+
+          node.append("path") //trianglar mask on node
+                  .attr("d", function(d){
+                      return d.arrow2a;
+                  })
+                  .style("fill", "#ffffff")
+                  .style("stroke", "#ffffff")
+                  .attr("opacity", 1)
+                  .attr("cursor", "move");
+
+
+            // need something to pull and fill icons (svg series). . . 
+
+        };
+
+        if (opt.n==="expandedArrows"){
+
+              node.append("path") //triangle basic for arrow (underlay)
+                  .attr("d", function(d){
+                      return d.arrow;
+                  })
+                  .style("fill", "#ffffff")
+                  .attr("opacity", 1);
+
+              node.append("path") //triangle basic for arrow
+                  .attr("d", function(d){
+                      return d.arrow;
+                  })
+                  .style("fill", function(d) {
+                  if ((width+margin.right*2)-d.x<200){
+                      return "none";
+                  } else {
+                      return d.color = color(d.name.replace(/ .*/ , "")); }})
+                  .attr("opacity", .9);
+
+              node.append("path") //triangle edge for arrow
+                  .attr("d", function(d){
+                      return d.arrow0;
+                  })
+                  .style("stroke", function(d){
+                      if ((width+margin.right*2)-d.x<200){
+                      return "none";
+                  } else {
+                    return "#ffffff";}})
+                  .style("stroke-linecap", "round")
+                  .style("fill", "none")
+                  .style("stroke-width", "5px"); 
+        };
+
+    
+
+
+// change this to a set of options - rectangle, arrow/arrow impression sq, arrow extended, other
+
+// add in the title for the nodes
+  node.append("text") 
+      .attr("x", function(d) { return d.dx-5; })
+      .attr("y", -7)
+      .attr("id", function(d) { return d.name; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", "end")
+      .attr("stroke", "none")
+      .attr("transform", null)
+      .attr("font-family", function(d){
+        if (opt.c!=="googleFonts"){
+          return "TrendHMSans-One";
+          } else {
+            return gFont;
+          };
+          }) // set this to function with google fonts
+      .text(function(d) { return d.name; })
+      .on("mouseover", function(d) {
+                    //Get this bar's x/y values, then augment for the tooltip
+                    var xPosition = parseFloat(d3.select(this).attr("x"));
+                    var yPosition = parseFloat(d3.select(this).attr("y")) + 15;
+                    var id="#"+this.id;
+                    console.log(id);
+                    //Create the tooltip label
+                    if (opt.n==="embeddedArrows"||opt.n==="bracketIcons"|| opt.n==="defaultNodes"){
+
+                            d3.select(id).append("rect")
+                                 .attr("id", "tooltip")
+                                 .attr("x", xPosition-10)
+                                 .attr("y", yPosition)
+                                 .attr("width", 150)
+                                 .attr("height", 20)
+                                 .attr("rx", 5)
+                                 .attr("ry", 5)
+                                 .attr("fill", "#ffffff")
+                                 .attr("stroke-width", .5)
+                                 .attr("stroke", "#e7e7e7")
+                                 .attr("opacity", .9)
+                                 .filter(function(d){ return d.x > width /8*7; })
+                                 .attr ("x", function(d){return xPosition-d.dx-130});
+                            // add in the subtitle for the nodes
+                            d3.select(id).append("text") 
+                                .attr("id", "subtitle")
+                                .attr("x", xPosition-5)
+                                .attr("y", yPosition+10)
+                                .attr("dy", ".35em")
+                                .attr("text-anchor", "start")
+                                .attr("font-family", function(d){
+                                  if (opt.c!=="googleFonts"){
+                                    return "inherit";
+                                    } else {
+                                      return gFontp;
+                                    };
+                                    })
+                                .attr("text-transform", "lowercase")
+                                .attr("font-size", 12)// set this to function with google fonts
+                                .text(function(d) { return "short subtitle to go here"; })
+                                .filter(function(d){ return d.x > width /8*7; })
+                                .attr ("x", function(d){return xPosition-d.dx-125});
+                          } else {
+
+                            d3.select(id).append("rect")
+                                 .attr("id", "tooltip")
+                                 .attr("x", xPosition-160)
+                                 .attr("y", yPosition)
+                                 .attr("width", 150)
+                                 .attr("height", 20)
+                                 .attr("rx", 5)
+                                 .attr("ry", 5)
+                                 .attr("fill", "#ffffff")
+                                 .attr("stroke-width", .5)
+                                 .attr("stroke", "#e7e7e7")
+                                 .attr("opacity", .9)
+                                 .filter(function(d){ return d.x > width /8*7; })
+                                 .attr ("x", function(d){return xPosition-d.dx-130});
+
+                          d3.select(id).append("text")
+                                .attr("id", "subtitle") 
+                                .attr("x", xPosition-150)
+                                //.attr("x", xPosition-5)
+                                .attr("y", yPosition+10)
+                                .attr("dy", ".35em")
+                                .attr("text-anchor", "start")
+                                .attr("text-transform", "lowercase")
+                                .attr("font-family", function(d){
+                                  if (opt.c!=="googleFonts"){
+                                    return "inherit";
+                                    } else {
+                                      return gFontp;
+                                    };
+                                    })
+                                .attr("font-size", 12)// set this to function with google fonts
+                                .text(function(d) { return "short subtitle to go here"; })
+                                .filter(function(d){ return d.x > width /8*7; })
+                                .attr ("x", function(d){return xPosition-d.dx-120});;
+                          };
+                          })
+
+               .on("mouseout", function() { 
+                    
+                    d3.selectAll("#tooltip").remove();
+                    d3.selectAll("#subtitle").remove();
+                    
+                   })
+               .on("click", function(d) {
+
+                      console.log(this.id);
+                   });
+    /*.filter(function(d) { return d.x < width /8; })
+      .attr("x", 0) // set this to vary based on the arrow options...
+      .attr("text-anchor", "start")
+      .attr("stroke", "none");*/
+
+
+// the function for moving the nodes in both the x and the y
+  function dragmove(d) {
+    d3.select(this).attr("transform", 
+        "translate(" + (d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))) + "," + (
+                d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
+            ) + ")");
+    sankey.relayout();
+    addingCurve();
+    lossCurve();
+    link.attr("d", path);
+    adding.attr("d", function(d){
+        return d.path;})
+    loss.attr("d", function(d){
+        return d.path;});
+  }
+});
+
+</script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>
