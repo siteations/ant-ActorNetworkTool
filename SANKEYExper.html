@@ -30,12 +30,17 @@
   
 }
 
-.link {
+.link,
+.adding,
+.loss {
   fill: none;
   stroke-opacity: .9;
 }
 
-.link:hover {
+.link:hover,
+.adding:hover,
+.loss:hover,
+.loop:hover {
   stroke-opacity: .5;
 }
 
@@ -110,9 +115,9 @@
             <h4> nodes </h4>
             <form>
               <input type="radio" name="nOpt" value="defaultNodes" onchange="opt=radioC()" checked> default nodes<br>
-              <input type="radio" name="nOpt" value="embeddedArrows" onchange="opt=radioC()"> embedded arrows<br>
               <input type="radio" name="nOpt" value="expandedArrows" onchange="opt=radioC()" > expanded arrows<br> 
-              <input type="radio" name="nOpt" value="bracketIcons" onchange="opt=radioC()" > bracket icons
+              <input type="radio" name="nOpt" value="bracketIcons" onchange="opt=radioC()" > bracket icons<br>
+              <input type="radio" name="nOpt" value="background" onchange="opt=radioC()"> background underlays
             </form>      
         </span>
         <span class= "col-md-2">
@@ -130,16 +135,16 @@
               <input type="radio" name="cOpt" value="defaultColor" onchange="opt=radioC()" checked> black & white<br>
               <input type="radio" name="cOpt" value="greysContrast" onchange="opt=radioC()"> greys & contrast<br>
               <input type="radio" name="cOpt" value="colorGradients" onchange="opt=radioC()"> color gradients<br> 
-              <input type="radio" name="cOpt" value="googleFonts" onchange="opt=radioC()" > google fonts
+              <input type="radio" name="cOpt" value="googleFonts" onchange="opt=radioC()"> google fonts
             </form> 
         </span>
         <span class= "col-md-2">
             <h4> overlays </h4>
             <form>
-              <input type="radio" name="oOpt" value="defaultTooltips" onchange="opt=radioC()" checked> tooltips variations<br>
+              <input type="radio" name="oOpt" value="defaultTooltips" onchange="opt=radioC()" checked> tooltips variations <br>
               <input type="radio" name="oOpt" value="timeS" onchange="opt=radioC()"> time series<br>
               <input type="radio" name="oOpt" value="typeS" onchange="opt=radioC()"> type series<br> 
-              <input type="radio" name="oOpt" value="background" onchange="opt=radioC()"> background images
+              <input type="radio" name="oOpt" value="background" onchange="opt=radioC()"> tabbed series
             </form>  
         </span>
         <span class= "col-md-2">
@@ -163,8 +168,9 @@
       </div>
       <div id="notes" style="padding-top:120px">
         <br>
-      <p id="chartSize" style="text-transform: capitalize">Drag Nodes to reposition, Hoover/Click on Titles for interaction </p>
-      <p style="font-size:12px; text-transform: capitalize">Note: Demonstration below don't provide full range of choices, but rather type of choices under development; alternate data structures link to different tables, see <a href:"/#form"> Data Formatting </a> for details </p>
+      <p id="chartSize" style="text-transform: capitalize"> Drag Nodes to reposition, Hoover/Click on Titles for interaction </p>
+      <p style="font-size:12px; text-transform: capitalize; line-height:4px"> Solid strokes = <em> basic progression from source to target;</em> fading lines = <em> additions or externalities typically considered outside the main system;</em> dashed strokes = <em> feedback from later stages in process </em></p>
+      <p style="font-size:12px; opacity: .5; text-transform: capitalize">Note: Demonstration below doesn't provide full range of choices, but rather the types under development; alternate data structures link to different tables, see <a href:"/#form"> Data Formatting </a> for details </p>
       </div>
 <div id="chart"></div>
       <div id="extras">
@@ -178,8 +184,10 @@
 <script src="js/sankeyAlt.js"></script>
 <script src="js/colorbrewer.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="js/bootstrap.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="js/bootstrap.min.js"></script>
+<script src="https://d3js.org/d3-color.v1.min.js"></script>
+<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
     
 
 <script>
@@ -220,16 +228,30 @@ opt=radioC();
 var units = "Units";
 
 var margin = {top: 20, right: 60, bottom: 60, left: 60},
-    width = 1100,
-    height = 400 - margin.top - margin.bottom;
+    width = 1100;
+
+var height = 400 - margin.top - margin.bottom; // should make this very adaptable for legibility
+
+//color gradient options need to be better... create 3-4 nice gradients
+//purple to orange
+//spring green through navy
+//hot red through mustard
+//red through purple
+//etc. 
+
+
+var purorange=["#800080", "#8b0078", "#95006c", "#a0005e", "#aa004d", "#b50039", "#c00022", "#ca0008", "#d51500", "#df3500", "#ea5700", "#f47d00", "#ffa500"];
+/*var color = d3.scale.linear()
+    .range(["#800080", "#ffa500"])
+    .interpolate(d3.interpolateHcl);*/
 
 
   if (opt.c==="colorGradients"){
       var formatNumber = d3.format(",.0f"),    // zero decimal places
       format = function(d) { return formatNumber(d) + " " + units; },
           color = d3.scale.ordinal()
-          .domain([0, 1])
-          .range(colorbrewer.YlGnBu[9]);
+          .domain(d3.range(8))
+          .range(purorange);
       } else if (opt.c==="greysContrast"){
       var formatNumber = d3.format(",.0f"),    // zero decimal places
       format = function(d) { return formatNumber(d) + " " + units; },
@@ -264,13 +286,14 @@ var svg = d3.select("#chart").append("svg")
 
 // Set the sankey diagram properties
 var sankey = d3.sankey()
-    .nodeWidth(48)
+    .nodeWidth(45)
     .nodePadding(100)
     .size([width-48, height]);
 
 var path = sankey.link();
 
 // load the data (using the timelyportfolio csv method)
+//d3.csv("data/demoMB.csv", function(error, data) {
 d3.csv("data/sankey.csv", function(error, data) {
 
   //set up graph in same style as original example but empty
@@ -295,6 +318,7 @@ d3.csv("data/sankey.csv", function(error, data) {
                         "target": d.target,
                          "type": d.type,
                          "value": +d.value});
+
       } else if (d.type==="loss"){
         graph.nodes.push({ "name": d.source });
 
@@ -303,11 +327,13 @@ d3.csv("data/sankey.csv", function(error, data) {
                         "target": d.target,
                          "type": d.type,
                          "value": +d.value});
+
       } else if (d.type==="loop"){
         graph.nodes.push({ "name": d.source });
         graph.nodes.push({ "name": d.target });
 
-        graph.loop.push({"source":d.source,
+        graph.loop.push({"name": d.source,
+                        "source": d.source,
                         "target": d.target,
                          "type": d.type,
                          "value": +d.value});
@@ -364,16 +390,15 @@ d3.csv("data/sankey.csv", function(error, data) {
           .append("linearGradient")
           .attr("id", "gradA"+i);
 
-
-          //gradient.attr("x1", graph.links[i].source.x)
-              //.attr("y1", graph.links[i].source.y)
-              //.attr("x2", graph.links[i].target.x)
-              //.attr("y2", graph.links[i].target.y);
-
           gradient.append("stop")
                   .attr("offset", "0%")
                   .attr("stop-color", graph.adding[i].scolor)
                   .attr("stop-opacity", 0);
+
+          gradient.append("stop")
+                  .attr("offset", "50%")
+                  .attr("stop-color", graph.adding[i].scolor)
+                  .attr("stop-opacity", .25);        
 
           gradient.append("stop")
                   .attr("offset", "100%")
@@ -392,16 +417,15 @@ d3.csv("data/sankey.csv", function(error, data) {
           .append("linearGradient")
           .attr("id", "gradL"+i);
 
-
-          //gradient.attr("x1", graph.links[i].source.x)
-              //.attr("y1", graph.links[i].source.y)
-              //.attr("x2", graph.links[i].target.x)
-              //.attr("y2", graph.links[i].target.y);
-
           gradient.append("stop")
                   .attr("offset", "0%")
                   .attr("stop-color", graph.loss[i].scolor)
                   .attr("stop-opacity", 1);
+
+          gradient.append("stop")
+                  .attr("offset", "50%")
+                  .attr("stop-color", graph.loss[i].tcolor)
+                  .attr("stop-opacity", .25);
 
           gradient.append("stop")
                   .attr("offset", "100%")
@@ -410,7 +434,35 @@ d3.csv("data/sankey.csv", function(error, data) {
        //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
      });
 
-     console.log(graph.adding);
+     graph.loop.forEach(function (d, i) {
+       graph.loop[i].source = graph.nodes.indexOf(graph.loop[i].source); 
+       graph.loop[i].target = graph.nodes.indexOf(graph.loop[i].target); //should give a -1 index ... if get -1, search other links and take their x half way between areas
+       graph.loop[i].tcolor = color(graph.nodes[graph.loop[i].target].replace(/ .*/, ""));// color( name.replace....)
+       graph.loop[i].scolor = color(graph.nodes[graph.loop[i].source].replace(/ .*/, ""));
+       //graph.loop[i].mcolor = d3.interpolateCubehelix(graph.loop[i].tcolor, graph.loop[i].scolor)(0.5);
+       //graph.loop[i].mcolor = interpolator(.5); 
+
+        var gradient = svg.append("defs")
+          .append("linearGradient")
+          .attr("id", "gradF"+i);
+
+          gradient.append("stop")
+                  .attr("offset", "30%")
+                  .attr("stop-color", graph.loop[i].tcolor)
+                  .attr("stop-opacity", 1);
+
+          gradient.append("stop")
+                  .attr("offset", "70%")
+                  .attr("stop-color", graph.loop[i].scolor)
+                  .attr("stop-opacity", 1);
+
+
+
+       //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
+     });
+    
+    //console.log(graph.nodes);
+    // console.log(graph.loop);
 
      //now loop through each nodes to make nodes an array of objects
      // rather than an array of strings
@@ -423,19 +475,37 @@ d3.csv("data/sankey.csv", function(error, data) {
     .links(graph.links)
     .adding(graph.adding)
     .loss(graph.loss)
-    //.loop(graph.loop) // second round of reworking.
+    .loop(graph.loop) // second round of reworking.
     .layout(32);
 
-console.log(graph.nodes);
-console.log(graph.adding);
 
 function addingCurve (){
+  var sy=0;
+  var n=0;
+  var nodeThis='';
+
     graph.adding.forEach(function(d){
       var nodeC=d.target;
-      console.log(d.target);
+          if (nodeC!==nodeThis){
+            nodeThis=nodeC;
+            sy=0;
+            n=0;
+          } else {
+            n++;
+          };
+
+          //console.log(d);
+      var fbV=0;
+      graph.loop.forEach(function(feedback){
+          if (graph.nodes[feedback.target].name===nodeC.name){
+            fbV+=feedback.value;
+          };
+      });
+
       var xPos=nodeC.x;
-      var yPos=nodeC.y+nodeC.dy-(nodeC.dy/nodeC.value*d.value/2);//top+depth-half of value
-      d.stroke = nodeC.dy/nodeC.value*d.value;
+      var yPos=nodeC.y+nodeC.dy-(nodeC.dy/nodeC.value*fbV)-(nodeC.dy/nodeC.value*d.value/2)-sy; 
+      sy+=(nodeC.dy/nodeC.value*d.value); //top+depth-half of value
+      d.stroke = nodeC.dy/nodeC.value*d.value; 
 
       var xStart=[0];
       nodeC.targetLinks.forEach(function(targetL, i){
@@ -444,7 +514,7 @@ function addingCurve (){
         };
       });
 
-      var xPos0=(xPos-Number(xStart))/2+Number(xStart);
+      var xPos0=(xPos-Number(xStart))/2+Number(xStart)-n*50;
 
       var curvature = .5;
 
@@ -463,19 +533,20 @@ function addingCurve (){
                + " " + x3 + "," + y1
                + " " + x1 + "," + y1;
 
-               console.log(d.path);
+      
         
     });
 };
 addingCurve();
 
 function lossCurve (){
-  var sy=0;
-  var n=0;
-  var nodeThis='';
+  var sy=0,
+      n=0,
+      nodeThis=''; // start counters
 
   graph.loss.forEach(function(d){
           var nodeC=d.source;
+
           if (nodeC!==nodeThis){
             nodeThis=nodeC;
             sy=0;
@@ -483,7 +554,7 @@ function lossCurve (){
           } else {
             n++;
           };
-          console.log(d.source);
+
           var xPos=nodeC.x+nodeC.dx;
           var yPos=sy+nodeC.y+(nodeC.dy/nodeC.value*d.value/2);
           sy+=(nodeC.dy/nodeC.value*d.value);
@@ -514,11 +585,109 @@ function lossCurve (){
                    //+ " " + x3 + "," + y01
                    + " " + x1 + "," + y1;
 
-                   console.log(d.path);
+                  
             
         });
 };
 lossCurve();
+
+function loopCurve (){
+  var ssy=0,
+      sn=0,
+      strokeSt=0;
+      snodeThis=''; // start counters
+  var esy=0,
+      en=0,
+      strokeEn=0;
+      enodeThis=''; // end counters
+
+  graph.loop.forEach(function(d){
+
+          var nodeSt=d.source;
+          var nodeEn=d.target;
+
+
+          if (nodeSt!==snodeThis){
+            snodeThis=nodeSt;
+            ssy=0;
+            sn=0;
+            strokeSt=0;
+          } else {
+            sn++;
+          };
+
+          if (nodeEn!==enodeThis){
+            enodeThis=nodeEn;
+            esy=0;
+            en=0;
+            strokeEn=0;
+          } else {
+            en++;
+          };
+
+
+      nodeSt=graph.nodes[nodeSt];
+      nodeEn=graph.nodes[nodeEn];
+      d.nameEnd=nodeEn.name;
+
+      var xsPos=nodeSt.x+nodeSt.dx; 
+      var ysPos=nodeSt.y+nodeSt.dy-(nodeSt.dy/nodeSt.value*d.value/2)-ssy; 
+      ssy+=(nodeSt.dy/nodeSt.value*d.value); //top+depth-half of value
+      d.stroke = nodeSt.dy/nodeSt.value*d.value;
+      var ysPos0 = nodeSt.y+nodeSt.dy+ d.stroke;
+
+      var xePos=nodeEn.x;
+      var yePos=nodeEn.y+nodeEn.dy-(nodeEn.dy/nodeEn.value*d.value/2)-esy; 
+      esy+=(nodeEn.dy/nodeEn.value*d.value);
+      var yePos0 = nodeEn.y+nodeEn.dy+ d.stroke; //top+depth-half of value
+
+      var xsPosAnc1=xsPos+nodeSt.dx;
+      if (sn=0){
+        var ysPosAnc1=0;
+      } else {
+        var xsPosAnc2=0;
+      };
+      var xsPosArm=xsPos-nodeSt.dx/3;
+
+
+      if ((nodeEn.x + nodeEn.dx*3)>=nodeSt.x 
+        //&& (nodeEn.x - nodeEn.dx*4)<nodeSt.x
+        ){
+        // && nodeSt.y<nodeEn.y){ // top node to bottom
+        console.log(nodeSt.name);
+        d.path="M" + xsPos + "," + ysPos
+                +"C" + (xsPos+nodeSt.dx*3) + ","+ ysPos
+                +" "+ (xePos-nodeEn.dx*3)+","+(yePos)
+                +" "+ (xePos)+","+(yePos);
+                
+      //} else if ((nodeEn.x + 30)>nodeSt.x && (nodeEn.x - 30)<nodeSt.x && nodeSt.y > nodeEn.y){ // bottom to top
+        //console.log(nodeSt.name);
+      } else {
+
+
+           d.path="M" + xsPos + "," + ysPos
+                +"C" + (xsPos+d.stroke*1.5) + ","+ (ysPos)
+                +" "+ (xsPos+d.stroke*1.5)+","+(ysPos0)
+                +" "+ xsPos+","+(ysPos0)
+                +"L"+(xsPos-nodeSt.dx/3)+","+(ysPos0)
+                +"C"+(xsPos-nodeSt.dx*3)+","+(ysPos0)
+                +" "+ (xePos+nodeEn.dx*3)+","+(yePos0)
+                +" "+ (xePos+nodeEn.dx/3)+","+(yePos0)
+                +"L"+xePos+","+(yePos0)
+                +"C" + (xePos-d.stroke*1.5) + ","+ (yePos0)
+                +" "+ (xePos-d.stroke*1.5)+","+yePos
+                +" "+ xePos+","+yePos;
+                
+      };
+          /*  m, move(x0,y0)... then curve at +10, move v-d.stroke*2, then horizontal -node.dx-10, the interpolated(curve), ditto(1-curve), node2.dx and v.y+dy+stoke*2, horizontal dx+10, v+d.stroke*2, horizontal+10... ends
+
+          */
+
+      
+        
+    });
+};
+loopCurve();
 
 
 /* graph.adding[i].target = node number it connects to > so nodes[...]
@@ -580,7 +749,7 @@ var adding = grouplines2.selectAll(".adding")
   adding.append("title")
         .text(function(d) {
         return d.name + " → " + 
-                d.target.name + "\n" + format(d.value); });
+                d.target.name + "\n" + format(d.value) + " added"; });
 
 
 var loss = grouplines2.selectAll(".loss")
@@ -601,8 +770,28 @@ var loss = grouplines2.selectAll(".loss")
 
   loss.append("title")
         .text(function(d) {
+        return d.source.name + " → " + 
+                d.name + "\n" + format(d.value) + " lost"; });
+
+var loop = grouplines2.selectAll(".loop")
+      .data(graph.loop)
+    .enter().append("path")
+      .attr("class", "loop")
+      .attr("d", function(d){
+        return d.path;})
+      .attr("stroke-dasharray", [5,1])
+      .style("stroke-width", function(d) { 
+             return Math.max(1, d.stroke); })
+      .attr("stroke", function(d, i){
+              return "url(#gradF"+i+")";})
+      .attr("opacity", .9)
+      //.attr("stroke-linecap", "round")
+      .attr("fill", "none");
+
+  loop.append("title")
+        .text(function(d) {
         return d.name + " → " + 
-                d.target.name + "\n" + format(d.value); });
+                d.nameEnd + "\n" + format(d.value) + " in feedback"; });
 
 
 // add in the nodes
@@ -631,7 +820,7 @@ var loss = grouplines2.selectAll(".loss")
         var lineData0=[{"x":d.dx+5, "y":-5}, {"x":.33*d.dy+d.dx+5, "y":d.dy/2}, {"x":d.dx+5, "y":d.dy+5}]; //excess arrows white line
 
         //var lineData1=[{"x":5, "y":0}, {"x":d.dx/4*3, "y":0}, {"x":d.dx, "y":d.dy/2}, {"x":d.dx/4*3, "y":d.dy}, {"x":5, "y":d.dy}, {"x":d.dx/2, "y":d.dy/2}, {"x":5, "y":0}]; //embedded arrow white out
-       var lineData1=[{"x":5, "y":0}, {"x":d.dx/8*7, "y":0}, {"x":d.dx, "y":d.dy/2}, {"x":d.dx/8*7, "y":d.dy}, {"x":5, "y":d.dy}, {"x":d.dx/2, "y":d.dy/2}, {"x":5, "y":0}]; //embedded arrow white out
+       var lineData1=[{"x":d.dx/2, "y":0}, {"x":d.dx/8*7, "y":0}, {"x":d.dx, "y":d.dy/2}, {"x":d.dx/8*7, "y":d.dy}, {"x":d.dx/2, "y":d.dy}, {"x":d.dx/8*5, "y":d.dy/2}, {"x":d.dx/2, "y":0}]; //embedded arrow white out
 
         var lineData2=[{"x":5, "y":5}, {"x":d.dx-5, "y":5}, {"x":d.dx-5, "y":d.dy-5}, {"x":5, "y":d.dy-5}];
         var lineData2a=[{"x":(5+d.dx/10), "y":0}, {"x":(d.dx-5-d.dx/10), "y":0}, {"x":(d.dx-5-d.dx/10), "y":d.dy}, {"x":(5+d.dx/10), "y":d.dy}];
@@ -672,7 +861,7 @@ var loss = grouplines2.selectAll(".loss")
 
       //------------------------------- arrow and overlay options-----------------------------------------------------------
 
-        if (opt.n==="embeddedArrows"){
+        /*if (opt.n==="embeddedArrows"){
 
            node.append("path") //trianglar mask on node
                   .attr("d", function(d){
@@ -691,7 +880,7 @@ var loss = grouplines2.selectAll(".loss")
                   .attr("opacity", 1)
                   .attr("cursor", "move");
 
-        };
+        };*/
 
         if (opt.n==="bracketIcons"){
 
@@ -711,12 +900,25 @@ var loss = grouplines2.selectAll(".loss")
                   .attr("opacity", 1)
                   .attr("cursor", "move");
 
+          node.append("image") //add pattern as def then d.val to url icon.
+                  .attr("x", function(d){
+                    return d.dx/2-8;
+                  })
+                  .attr("y", function(d){
+                    return d.dy/2-8;
+                  })
+                  .attr("height", 16)
+                  .attr("width", 16)
+                  .attr("stroke", "#757575")
+                  .attr("xlink:href", "img/paper.svg")
+                  .attr("opacity", 1)
+                  .attr("cursor", "move");
 
             // need something to pull and fill icons (svg series). . . 
 
         };
 
-        if (opt.n==="expandedArrows"){
+        if (opt.n==="expandedArrows" || opt.n==="background" ){
 
               node.append("path") //triangle basic for arrow (underlay)
                   .attr("d", function(d){
@@ -757,13 +959,26 @@ var loss = grouplines2.selectAll(".loss")
 
 // add in the title for the nodes
   node.append("text") 
-      .attr("x", function(d) { return d.dx-5; })
+      .attr("x", function(d) { 
+            if (opt.n==="bracketIcons"){
+                return d.dx/2;
+                } else {
+                  return d.dx-5;
+                };
+                })
       .attr("y", -7)
       .attr("id", function(d) { return d.name; })
       .attr("dy", ".35em")
-      .attr("text-anchor", "end")
+      .attr("text-anchor", function(d) { 
+            if (opt.n==="bracketIcons"){
+                return "middle";
+                } else {
+                  return "end";
+                };
+                })
       .attr("stroke", "none")
       .attr("transform", null)
+      .attr("font-size", 10)
       .attr("font-family", function(d){
         if (opt.c!=="googleFonts"){
           return "TrendHMSans-One";
@@ -775,15 +990,16 @@ var loss = grouplines2.selectAll(".loss")
       .on("mouseover", function(d) {
                     //Get this bar's x/y values, then augment for the tooltip
                     var xPosition = parseFloat(d3.select(this).attr("x"));
-                    var yPosition = parseFloat(d3.select(this).attr("y")) + 15;
+                    var yPosition = parseFloat(d3.select(this).attr("y")) + 10;
                     var id="#"+this.id;
                     console.log(id);
                     //Create the tooltip label
-                    if (opt.n==="embeddedArrows"||opt.n==="bracketIcons"|| opt.n==="defaultNodes"){
+                    if (opt.n==="bracketIcons"|| opt.n==="defaultNodes"){
 
                             d3.select(id).append("rect")
                                  .attr("id", "tooltip")
-                                 .attr("x", xPosition-10)
+                                 //.attr("x", xPosition-10)
+                                 .attr("x", xPosition+22)
                                  .attr("y", yPosition)
                                  .attr("width", 150)
                                  .attr("height", 20)
@@ -798,7 +1014,7 @@ var loss = grouplines2.selectAll(".loss")
                             // add in the subtitle for the nodes
                             d3.select(id).append("text") 
                                 .attr("id", "subtitle")
-                                .attr("x", xPosition-5)
+                                .attr("x", xPosition+25)
                                 .attr("y", yPosition+10)
                                 .attr("dy", ".35em")
                                 .attr("text-anchor", "start")
@@ -815,6 +1031,8 @@ var loss = grouplines2.selectAll(".loss")
                                 .filter(function(d){ return d.x > width /8*7; })
                                 .attr ("x", function(d){return xPosition-d.dx-125});
                           } else {
+
+                            // add background image fill of svg group...
 
                             d3.select(id).append("rect")
                                  .attr("id", "tooltip")
@@ -878,10 +1096,13 @@ var loss = grouplines2.selectAll(".loss")
     sankey.relayout();
     addingCurve();
     lossCurve();
+    loopCurve();
     link.attr("d", path);
     adding.attr("d", function(d){
         return d.path;})
     loss.attr("d", function(d){
+        return d.path;})
+    loop.attr("d", function(d){
         return d.path;});
   }
 });
