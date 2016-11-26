@@ -44,11 +44,11 @@ d3.sankey = function() {
     return sankey;
   };
 
-  /*sankey.loop = function(_) {
+  sankey.loop = function(_) {
     if (!arguments.length) return loop;
     loop = _;
     return sankey;
-  };*/
+  };
 
 var h='';
   sankey.size = function(_) {
@@ -102,6 +102,12 @@ var h='';
     return link;
   };
 
+  //sankey.addings (shift to this table)
+
+  //sankey.losses (shift to this table)
+
+  //sankey.looping (shift to this table)
+
 
 
 
@@ -144,18 +150,15 @@ var h='';
           
     });
 
-    /*loop.forEach(function(circular) {
-          sourceC = circular.source,
-          targetC = circular.target;
-          nodes.forEach(function(node){
-            if(node.name===sourceC){
-              node.sourceLinks.push(circular);
-            };
-            if(node.name===targetC){
-              node.targetLinks.push(circular);
-            };
-          });
-    });*/
+   loop.forEach(function(circular) {
+        var sourceC = circular.source,
+            targetC = circular.target;
+
+            //rework later;
+
+
+    });
+
     nodes.forEach(function(node){
         //console.log(node);
     });
@@ -331,23 +334,31 @@ var h='';
       node.sourceLinks.sort(ascendingTargetDepth);
       node.targetLinks.sort(ascendingSourceDepth);
     });
+
     nodes.forEach(function(node) {
       var sy = 0, ty = 0;
-            var posLinks=[];
+            var posLinks=[],
+                fb = 0;
+      loop.forEach(function(feedback){
+        if (feedback.name===node.name){
+          fb += feedback.value;
+        };
+      });
+
       node.sourceLinks.forEach(function(link) {
+        //console.log(link);
         if (link.dy){
-        posLinks.push(link.dy);
+          posLinks.push(link.dy);
         }; // full value is full height, need from zero to start at dy+loss.dy
       });
-          sy=node.dy-d3.sum(posLinks);
+          //console.log(node.name,node.value,d3.sum(posLinks),fb/node.value*node.dy);
+          sy=node.dy-d3.sum(posLinks)-(fb/node.value*node.dy);
       //take out the undefined additions here....
 
       node.sourceLinks.forEach(function(link) {
         link.sy = sy;
         sy += link.dy;
       });
-
-
 
       node.targetLinks.forEach(function(link) {
         link.ty = ty;
@@ -371,6 +382,7 @@ var h='';
   function value(link) {
     return link.value;
   }
+
 
   return sankey;
 };
