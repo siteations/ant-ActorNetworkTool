@@ -1,5 +1,5 @@
 source,target,value,type
-Jill,Rachel,2,
+Jill,Rachel,3,
 Jack,Rachel,2,
 Bob,Rachel,2,
 Bob,Sam,1,
@@ -9,7 +9,7 @@ Ralph,Alice,3,
 Jack,Sarah,2,
 Jill,Alice,2,
 Sam,Sarah,2,
-Rachel,Sarah,3,
+Rachel,Sarah,4,
 Rachel,Alice,2,
 Sarah,Alice,4,
 Found,Sarah,4,adding
