@@ -32,17 +32,12 @@
 
 .link,
 .adding,
-.loss {
+.loss,
+.loop {
   fill: none;
   stroke-opacity: .9;
 }
 
-.link:hover,
-.adding:hover,
-.loss:hover,
-.loop:hover {
-  stroke-opacity: .5;
-}
 
 </style>
   <body>
@@ -168,6 +163,7 @@
       </div>
       <div id="notes" style="padding-top:120px">
         <br>
+      <form> 
       <p id="chartSize" style="text-transform: capitalize"> Drag Nodes to reposition, Hoover/Click on Titles for interaction </p>
       <p style="font-size:12px; text-transform: capitalize; line-height:4px"> Solid strokes = <em> basic progression from source to target;</em> fading lines = <em> additions or externalities typically considered outside the main system;</em> dashed strokes = <em> feedback from later stages in process </em></p>
       <p style="font-size:12px; opacity: .5; text-transform: capitalize">Note: Demonstration below doesn't provide full range of choices, but rather the types under development; alternate data structures link to different tables, see <a href:"/#form"> Data Formatting </a> for details </p>
@@ -241,6 +237,7 @@ var height = 400 - margin.top - margin.bottom; // should make this very adaptabl
 
 
 var purorange=["#800080", "#8b0078", "#95006c", "#a0005e", "#aa004d", "#b50039", "#c00022", "#ca0008", "#d51500", "#df3500", "#ea5700", "#f47d00", "#ffa500"];
+var greys=[ "#333333", "#424242", "#515151", "#616161", "#707070", "#7f7f7f", "#8e8e8e", "#9e9e9e", "#adadad", "#bcbcbc", "#cbcbcb", "#dbdbdb", "#eaeaea"]; 
 /*var color = d3.scale.linear()
     .range(["#800080", "#ffa500"])
     .interpolate(d3.interpolateHcl);*/
@@ -250,14 +247,15 @@ var purorange=["#800080", "#8b0078", "#95006c", "#a0005e", "#aa004d", "#b50039",
       var formatNumber = d3.format(",.0f"),    // zero decimal places
       format = function(d) { return formatNumber(d) + " " + units; },
           color = d3.scale.ordinal()
-          .domain(d3.range(8))
-          .range(purorange);
+          .domain(d3.range(7))
+          //.range(custom.purorange);
+          .range(colorbrewer.YlGnBu[9])
       } else if (opt.c==="greysContrast"){
       var formatNumber = d3.format(",.0f"),    // zero decimal places
       format = function(d) { return formatNumber(d) + " " + units; },
           color = d3.scale.ordinal()
-          .domain([0, 1])
-          .range(colorbrewer.Greys[9]);
+          .domain(d3.range(7))
+          .range(greys);
 
       } else {
       var formatNumber = d3.format(",.0f"),    // zero decimal places
@@ -297,9 +295,10 @@ var path = sankey.link();
 d3.csv("data/sankey.csv", function(error, data) {
 
   //set up graph in same style as original example but empty
-  graph = {"nodes" : [], "links" : [], "adding":[], "loss":[], "loop":[]};
+  graph = {"nodes" : [], "links" : [], "adding":[], "loss":[], "loop":[]};// expanded as needed for annotations
 
     data.forEach(function (d) {
+
       if (d.type===""){
         graph.nodes.push({ "name": d.source });
         graph.nodes.push({ "name": d.target });
@@ -348,7 +347,86 @@ d3.csv("data/sankey.csv", function(error, data) {
        .key(function (d) { return d.name; })
        .map(graph.nodes));
 
-     //console.log(graph);
+    console.log(graph.nodes);
+
+    // highlight gradients... then link, etc.
+
+    var gradientHA = svg.append("defs")
+          .append("linearGradient")
+          .attr("id", "gradHA");
+
+          gradientHA.append("stop")
+                  .attr("offset", "0%")
+                  .attr("stop-color", "#ffffff")
+                  .attr("stop-opacity", 0);
+
+          gradientHA.append("stop")
+                  .attr("offset", "50%")
+                  .attr("stop-color", "#ff006a")
+                  .attr("stop-opacity", .25);        
+
+          gradientHA.append("stop")
+                  .attr("offset", "100%")
+                  .attr("stop-color", "#ff006a")// pink
+                  .attr("stop-opacity", 1);
+
+    var gradientLA = svg.append("defs")
+          .append("linearGradient")
+          .attr("id", "gradLA");
+
+          gradientLA.append("stop")
+                  .attr("offset", "0%")
+                  .attr("stop-color", "#ff006a")
+                  .attr("stop-opacity", 1);
+
+          gradientLA.append("stop")
+                  .attr("offset", "50%")
+                  .attr("stop-color", "#ff006a")
+                  .attr("stop-opacity", .25);        
+
+          gradientLA.append("stop")
+                  .attr("offset", "100%")
+                  .attr("stop-color", "#ffffff")// pink
+                  .attr("stop-opacity", 0);
+
+
+    var gradientHAG = svg.append("defs")
+          .append("linearGradient")
+          .attr("id", "gradHAG");
+
+          gradientHAG.append("stop")
+                  .attr("offset", "0%")
+                  .attr("stop-color", "#ffffff")
+                  .attr("stop-opacity", 0);
+
+          gradientHAG.append("stop")
+                  .attr("offset", "50%")
+                  .attr("stop-color", "#333333")
+                  .attr("stop-opacity", .25);        
+
+          gradientHAG.append("stop")
+                  .attr("offset", "100%")
+                  .attr("stop-color", "#333333")// grey
+                  .attr("stop-opacity", 1);
+
+    var gradientLAG = svg.append("defs")
+          .append("linearGradient")
+          .attr("id", "gradLAG");
+
+          gradientLAG.append("stop")
+                  .attr("offset", "0%")
+                  .attr("stop-color", "#333333")
+                  .attr("stop-opacity", 1);
+
+          gradientLAG.append("stop")
+                  .attr("offset", "50%")
+                  .attr("stop-color", "#333333")
+                  .attr("stop-opacity", .25);        
+
+          gradientLAG.append("stop")
+                  .attr("offset", "100%")
+                  .attr("stop-color", "#ffffff")// pink
+                  .attr("stop-opacity", 0);
 
      // loop through each link replacing the text with its index from node
      graph.links.forEach(function (d, i) {
@@ -404,6 +482,7 @@ d3.csv("data/sankey.csv", function(error, data) {
                   .attr("offset", "100%")
                   .attr("stop-color", graph.adding[i].tcolor)
                   .attr("stop-opacity", 1);
+
        //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
      });
 
@@ -461,14 +540,18 @@ d3.csv("data/sankey.csv", function(error, data) {
        //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
      });
     
-    //console.log(graph.nodes);
+    // console.log(graph.nodes);
     // console.log(graph.loop);
 
      //now loop through each nodes to make nodes an array of objects
      // rather than an array of strings
      graph.nodes.forEach(function (d, i) {
        graph.nodes[i] = { "name": d };
+       graph.nodes[i].icon=(d.toLowerCase()+".svg"); // icons have been renamed to match node name (easier than table set-up)
+
      });
+
+console.log(graph.nodes);
 
   sankey // so just to summing equations here.....graph = {"nodes" : [], "links" : [], "add":[], "loss":[], "loop":[]};
     .nodes(graph.nodes)
@@ -477,6 +560,8 @@ d3.csv("data/sankey.csv", function(error, data) {
     .loss(graph.loss)
     .loop(graph.loop) // second round of reworking.
     .layout(32);
+
+
 
 
 function addingCurve (){
@@ -601,10 +686,12 @@ function loopCurve (){
       strokeEn=0;
       enodeThis=''; // end counters
 
-  graph.loop.forEach(function(d){
+  graph.loop.forEach(function(d){ // rework from here
 
           var nodeSt=d.source;
+          //d.source=graph.nodes[nodeSt];
           var nodeEn=d.target;
+          //d.target=graph.nodes[nodeEn];
 
 
           if (nodeSt!==snodeThis){
@@ -654,14 +741,12 @@ function loopCurve (){
         //&& (nodeEn.x - nodeEn.dx*4)<nodeSt.x
         ){
         // && nodeSt.y<nodeEn.y){ // top node to bottom
-        console.log(nodeSt.name);
+
         d.path="M" + xsPos + "," + ysPos
                 +"C" + (xsPos+nodeSt.dx*3) + ","+ ysPos
                 +" "+ (xePos-nodeEn.dx*3)+","+(yePos)
                 +" "+ (xePos)+","+(yePos);
                 
-      //} else if ((nodeEn.x + 30)>nodeSt.x && (nodeEn.x - 30)<nodeSt.x && nodeSt.y > nodeEn.y){ // bottom to top
-        //console.log(nodeSt.name);
       } else {
 
 
@@ -712,6 +797,287 @@ if (opt.c==="googleFonts"){
   gFontp="Josefin Slab"; 
 }
 
+// couple functions for the mouseover/mouseout highlights on LINKS/ADDS/LOSS/LOOPS--------------------------------------------------------
+
+    function highlight(dt){
+            //dt=d3.select(this); which is the starting node
+            //console.log(dt);
+
+            var col="";
+            if ((dt.attr("class")==="link"||dt.attr("class")==="loop") && (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts")){
+                col="#ff006a";
+            } else if ((dt.attr("class")==="link"||dt.attr("class")==="loop") && opt.c==="colorGradients"){
+                col="#333333";
+            } else if (dt.attr("class")==="adding" && (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts")){
+                col="url(#gradHA)";
+            } else if (dt.attr("class")==="adding"){
+                col="url(#gradHAG)";
+            } else if (dt.attr("class")==="loss" && (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts")){
+                col="url(#gradLA)";
+            } else if (dt.attr("class")==="loss"){
+                col="url(#gradLAG)";
+            };
+
+                    if (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts"){ // when in greyscales or not
+                      // if class  link-loop-source, if link-loop-target... stroke for all
+                      if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="loss"){
+                        d3.select(dt.attr("sc")).attr("fill", "#ff006a");
+                        d3.select(dt.attr("sc")+"Node").attr("fill", "#ff006a");
+                        d3.select(dt.attr("sc")+"Node").attr("stroke", "#ff006a");
+                        if (d3.select(dt.attr("sc")+"Arrow")){ 
+                        d3.select(dt.attr("sc")+"Arrow").attr("fill", "#ff006a");
+                        };// arrow heads add if not null
+                      };
+
+                      if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="adding"){ 
+                        d3.select(dt.attr("tg")).attr("fill", "#ff006a");
+                        d3.select(dt.attr("tg")+"Node").attr("fill", "#ff006a");
+                        d3.select(dt.attr("tg")+"Node").attr("stroke", "#ff006a");
+                        if (d3.select(dt.attr("tg")+"Arrow")){ 
+                          d3.select(dt.attr("tg")+"Arrow").attr("fill", "#ff006a");
+                          };
+                      };
+
+                      dt.attr("stroke", col);
+
+                  } else { // when in color this is greyscale
+
+                    if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="loss"){ 
+                      d3.select(dt.attr("sc")).attr("fill", "#333333");
+                      d3.select(dt.attr("sc")+"Node").attr("fill", "#333333");
+                      d3.select(dt.attr("sc")+"Node").attr("stroke", "#333333");
+                      if (d3.select(dt.attr("sc")+"Arrow")){ 
+                        d3.select(dt.attr("sc")+"Arrow").attr("fill", "#333333");
+                        };
+                    };
+                    if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="adding"){
+                      d3.select(dt.attr("tg")).attr("fill", "#333333");
+                      d3.select(dt.attr("tg")+"Node").attr("fill", "#333333");
+                      d3.select(dt.attr("tg")+"Node").attr("stroke", "#333333");
+                      if (d3.select(dt.attr("tg")+"Arrow")){ 
+                        d3.select(dt.attr("tg")+"Arrow").attr("fill", "#333333");
+                        };
+                    };
+
+                      dt.attr("stroke", col);
+                  };
+          };
+
+    function normal(dt){
+            //dt=d3.select(this);
+
+             var gradient1=dt.attr("C1");
+
+              if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="loss"){
+                var solids=solids=d3.select(dt.attr("sc")+"Node").attr("C1");
+
+                      d3.select(dt.attr("sc")).attr("fill", "#333333");
+                      d3.select(dt.attr("sc")+"Node").attr("fill", solids);
+                      d3.select(dt.attr("sc")+"Node").attr("stroke", solids);
+                      if (d3.select(dt.attr("sc")+"Arrow")){ 
+                        d3.select(dt.attr("sc")+"Arrow").attr("fill", solids);
+                        };
+              };
+              if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="adding"){
+                  var solidt=d3.select(dt.attr("tg")+"Node").attr("C1");
+
+                      d3.select(dt.attr("tg")).attr("fill", "#333333");
+                      d3.select(dt.attr("tg")+"Node").attr("fill", solidt);
+                      d3.select(dt.attr("tg")+"Node").attr("stroke", solidt);
+                      if (d3.select(dt.attr("tg")+"Arrow")){ 
+                        d3.select(dt.attr("tg")+"Arrow").attr("fill", solidt);
+                        };
+              };
+                      dt.attr("stroke", gradient1);
+                      
+          };
+
+// highlights mouseover/mouse-out for the NODES AND THEIR LINKS (SOURCE/TARGET)--------------------------------------------------------------------------------
+    // similar highlights to above
+    //  should there be a pop-up label? for a placeholder rectangle below node (subtitle to be decided, triggered?) - go above/below as opposed to label trigger
+    function highlightN(dt){
+            //dt=d3.select(this);
+            //NodeOver and NodeIcon for the bracket interactions to be more general.
+            var nodeOrigin='';
+            if (dt.attr("id").match("NodeOver")){ nodeOrigin = "#"+dt.attr("id").replace("NodeOver", ''); 
+            } else if (dt.attr("id").match("NodeIcon")){ nodeOrigin = "#"+dt.attr("id").replace("NodeIcon", ''); 
+            } else { nodeOrigin = "#"+dt.attr("id").replace("Node", ''); };
+            console.log(nodeOrigin);
+            var highLink=[], // to hold all source links // target links
+                highNodes=[]; // the nodes at the end of those links
+
+            var mainNode=graph.nodes.filter(function(d){
+                  return d.name===nodeOrigin.slice(1);
+                });
+                
+                mainNode[0].sourceLinks.forEach(function(source){
+                  highLink.push("#"+source.source.name+source.target.name);
+                  if (source.target !== -1){ 
+                      highNodes.push("#"+source.target.name+"Node"); 
+                      //highLink.push(source.source.name+source.target.name); 
+                    };
+                });
+                mainNode[0].targetLinks.forEach(function(target){
+                  highLink.push("#"+target.source.name+target.target.name);
+                  if (target.source !== -1){ highNodes.push("#"+target.source.name+"Node"); };
+                }); 
+
+                graph.loop.forEach(function(loop){
+                  if (loop.name === nodeOrigin.slice(1)){
+                    highLink.push("#"+loop.name+loop.nameEnd);
+                    highNodes.push("#"+loop.nameEnd+"Node"); 
+                  } else if (loop.nameEnd === nodeOrigin.slice(1)){
+                    highLink.push("#"+loop.name+loop.nameEnd);
+                    highNodes.push("#"+loop.name+"Node");
+                  };
+                });
+
+            var col="";
+            var colA="";
+            var colL="";
+            if (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts"){
+                col="#ff006a";
+                colA="url(#gradHA)";
+                colL="url(#gradLA)";
+            } else if (opt.c==="colorGradients"){
+                col="#333333";
+                colA="url(#gradHAG)";
+                colL="url(#gradLAG)";
+            };
+            
+
+                // original node filling
+                      d3.select(nodeOrigin+"Node").attr("fill", col);
+                      d3.select(nodeOrigin+"Node").attr("stroke", col);
+                      d3.select(nodeOrigin).attr("fill", col);
+                        if (d3.select(nodeOrigin+"Arrow")){ 
+                        d3.select(nodeOrigin+"Arrow").attr("fill", col);
+                        };
+
+                // loop throught additional nodes
+                //console.log(nodeOrigin, highLink, highNodes);
+                highLink.forEach(function(link){
+                  if (d3.selectAll(link).attr("class")==="link"||d3.selectAll(link).attr("class")==="loop"){ 
+                    d3.selectAll(link).attr("stroke", col);
+                  } else if (d3.selectAll(link).attr("class")==="adding"){
+                    d3.selectAll(link).attr("stroke",colA);
+                  } else if (d3.selectAll(link).attr("class")==="loss"){
+                    d3.selectAll(link).attr("stroke",colL);
+                  };
+                });
+
+                highNodes.forEach(function(node){
+                    d3.selectAll(node).attr("fill", col);
+                    d3.selectAll(node).attr("stroke", col);
+                    var nodetext=node.slice(0,-4);
+                      d3.select(nodetext).attr("fill", col);
+                    if (d3.select(node+"Arrow")){ 
+                        d3.select(node+"Arrow").attr("fill", col);
+                        };
+                });
+          };
+
+    function normalN(dt){
+            //dt=d3.select(this);
+
+            // will have to collect original colors for each type... all will be different
+            var nodeOrigin='';
+            if (dt.attr("id").match("NodeOver")){ nodeOrigin = "#"+dt.attr("id").replace("NodeOver", ''); 
+            } else if (dt.attr("id").match("NodeIcon")){ nodeOrigin = "#"+dt.attr("id").replace("NodeIcon", ''); 
+            } else { nodeOrigin = "#"+dt.attr("id").replace("Node", ''); };
+            console.log(nodeOrigin);
+
+            var highLink=[], // to hold all source links // target links
+                highNodes=[];
+
+            //var col=dt.attr("C1"); // will have to collect original colors for each type... all will be different
+                //colLink=[],
+                //colNodes=[];
+
+            var mainNode=graph.nodes.filter(function(d){
+                  return d.name===nodeOrigin.slice(1);
+                });
+                
+                mainNode[0].sourceLinks.forEach(function(source){
+                  highLink.push("#"+source.source.name+source.target.name);
+                  if (source.target !== -1){ 
+                      highNodes.push("#"+source.target.name+"Node"); 
+                      //highLink.push(source.source.name+source.target.name); 
+                    };
+                });
+                mainNode[0].targetLinks.forEach(function(target){
+                  highLink.push("#"+target.source.name+target.target.name);
+                  if (target.source !== -1){ highNodes.push("#"+target.source.name+"Node"); };
+                }); 
+
+                graph.loop.forEach(function(loop){
+                  if (loop.name === nodeOrigin.slice(1)){
+                    highLink.push("#"+loop.name+loop.nameEnd);
+                    highNodes.push("#"+loop.nameEnd+"Node"); 
+                  } else if (loop.nameEnd === nodeOrigin.slice(1)){
+                    highLink.push("#"+loop.name+loop.nameEnd);
+                    highNodes.push("#"+loop.name+"Node");
+                  };
+                });
+                //console.log(graph.loop);
+                console.log(nodeOrigin, highLink, highNodes);
+
+
+                // original node filling
+                var colN=d3.select(nodeOrigin+"Node").attr("C1");
+                      d3.select(nodeOrigin+"Node").attr("fill", colN);
+                      d3.select(nodeOrigin+"Node").attr("stroke", colN);
+                      d3.select(nodeOrigin).attr("fill", "#333333");
+                        if (d3.select(nodeOrigin+"Arrow")){ 
+                        d3.select(nodeOrigin+"Arrow").attr("fill", colN);
+                        };
+
+                // links
+                highLink.forEach(function(link){
+                  col=d3.select(link).attr("C1");
+                  d3.selectAll(link).attr("stroke", col);
+                });
+
+                // nodes
+                highNodes.forEach(function(node){
+                    //console.log(node);
+                    col=d3.select(node).attr("C1");
+                    d3.selectAll(node).attr("fill", col);
+                    d3.selectAll(node).attr("stroke", col);
+                    var nodetext=node.slice(0,-4);
+                      d3.select(nodetext).attr("fill", "#333333");
+                    if (d3.select(node+"Arrow")){ 
+                        d3.select(node+"Arrow").attr("fill", col);
+                        };
+                });
+
+
+
+              /*if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="loss"){
+                var solids=solids=d3.select(dt.attr("sc")+"Node").attr("C1");
+
+                      d3.select(dt.attr("sc")).attr("fill", "#333333");
+                      d3.select(dt.attr("sc")+"Node").attr("fill", solids);
+                      d3.select(dt.attr("sc")+"Node").attr("stroke", solids);
+                      if (d3.select(dt.attr("sc")+"Arrow")){ 
+                        d3.select(dt.attr("sc")+"Arrow").attr("fill", solids);
+                        };
+              };
+              if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="adding"){
+                  var solidt=d3.select(dt.attr("tg")+"Node").attr("C1");
+
+                      d3.select(dt.attr("tg")).attr("fill", "#333333");
+                      d3.select(dt.attr("tg")+"Node").attr("fill", solidt);
+                      d3.select(dt.attr("tg")+"Node").attr("stroke", solidt);
+                      if (d3.select(dt.attr("tg")+"Arrow")){ 
+                        d3.select(dt.attr("tg")+"Arrow").attr("fill", solidt);
+                        };
+              };
+                      dt.attr("fill", gradient1);*/
+                      
+          };
+
+// 
 
 // add in the links
   var link = grouplines.selectAll(".link")
@@ -719,10 +1085,22 @@ if (opt.c==="googleFonts"){
     .enter().append("path")
       .attr("class", "link")
       .attr("d", path)
+      .attr("id", function(d){ return d.source.name+d.target.name; })
+      .attr("sc", function(d){ return "#"+d.source.name;})
+      .attr("tg", function(d){ return "#"+d.target.name;})
+      .attr("C1", function(d, i){
+              return "url(#grad"+i+")";})
       .style("stroke-width", function(d) { return Math.max(1, d.dy); })
       .attr("stroke", function(d, i){
               return "url(#grad"+i+")";}) 
-              //return d.scolor;})
+      .on("mouseover", function(d) {
+        var b=(d3.select(this));
+        highlight(b);
+      })
+      .on("mouseout", function(d){
+        var b=(d3.select(this));
+        normal(b);
+      })
       .sort(function(a, b) { return b.dy - a.dy; });
 
 // add the link titles
@@ -735,15 +1113,24 @@ var adding = grouplines2.selectAll(".adding")
       .data(graph.adding)
     .enter().append("path")
       .attr("class", "adding")
+      .attr("id", function(d){ return d.source.name+d.target.name; })
+      .attr("tg", function(d){ return "#"+d.target.name;})
       .attr("d", function(d){
         return d.path;})
-      .style("stroke-width", function(d) { 
-            console.log("adding:" + d);
+      .attr("C1", function(d, i){
+              return "url(#gradA"+i+")";})
+      .attr("stroke-width", function(d) { 
              return Math.max(1, d.stroke); })
       .attr("stroke", function(d, i){
               return "url(#gradA"+i+")";})
-      .attr("opacity", .9)
-      .attr("fill", "none");
+      .on("mouseover", function(d) {
+        var b=(d3.select(this));
+        highlight(b);
+      })
+      .on("mouseout", function(d){
+        var b=(d3.select(this));
+        normal(b);
+      });
               //return d.scolor;})
       //.sort(function(a, b) { return b.dy - a.dy; });
   adding.append("title")
@@ -756,15 +1143,24 @@ var loss = grouplines2.selectAll(".loss")
       .data(graph.loss)
     .enter().append("path")
       .attr("class", "loss")
+      .attr("id", function(d){ return d.source.name+d.target.name; })
+      .attr("sc", function(d){ return "#"+d.source.name;})
       .attr("d", function(d){
         return d.path;})
-      .style("stroke-width", function(d) { 
-            console.log("adding:" + d);
+      .attr("C1", function(d, i){
+              return "url(#gradL"+i+")";})
+      .attr("stroke-width", function(d) { 
              return Math.max(1, d.stroke); })
       .attr("stroke", function(d, i){
               return "url(#gradL"+i+")";})
-      .attr("opacity", .9)
-      .attr("fill", "none");
+      .on("mouseover", function(d) {
+        var b=(d3.select(this));
+        highlight(b);
+      })
+      .on("mouseout", function(d){
+        var b=(d3.select(this));
+        normal(b);
+      });
               //return d.scolor;})
       //.sort(function(a, b) { return b.dy - a.dy; });
 
@@ -773,20 +1169,32 @@ var loss = grouplines2.selectAll(".loss")
         return d.source.name + " → " + 
                 d.name + "\n" + format(d.value) + " lost"; });
 
+
+
 var loop = grouplines2.selectAll(".loop")
       .data(graph.loop)
     .enter().append("path")
       .attr("class", "loop")
       .attr("d", function(d){
         return d.path;})
+      .attr("id", function(d){ return d.name+d.nameEnd; })
+      .attr("sc", function(d){ return "#"+graph.nodes[d.source].name;})
+      .attr("tg", function(d){ return "#"+graph.nodes[d.target].name;})
+      .attr("C1", function(d, i){
+              return "url(#gradF"+i+")";})
       .attr("stroke-dasharray", [5,1])
       .style("stroke-width", function(d) { 
              return Math.max(1, d.stroke); })
       .attr("stroke", function(d, i){
               return "url(#gradF"+i+")";})
-      .attr("opacity", .9)
-      //.attr("stroke-linecap", "round")
-      .attr("fill", "none");
+      .on("mouseover", function(d) { // need to standardize/rebuilt to finish this!
+        var b=(d3.select(this));
+        highlight(b);
+      })
+      .on("mouseout", function(d){
+        var b=(d3.select(this));
+        normal(b);
+      }) ;
 
   loop.append("title")
         .text(function(d) {
@@ -798,8 +1206,7 @@ var loop = grouplines2.selectAll(".loop")
   var node = groupnodes.selectAll(".node")
       .data(graph.nodes)
     .enter().append("g")
-      .attr("class", "node")
-      .attr("id", function(d){ return d.name})
+      .attr("class", "node")      
       .attr("transform", function(d) { 
 		    return "translate(" + d.x + "," + d.y + ")"; })
     .call(d3.behavior.drag()
@@ -849,38 +1256,30 @@ var loop = grouplines2.selectAll(".loop")
   node.append("rect")
       .attr("height", function(d) { return d.dy; })
       .attr("width", sankey.nodeWidth())
-      .attr("opacity", .9)
-      .style("fill", function(d) { 
+      .attr("C1", function(d) { 
       return d.color = color(d.name.replace(/ .*/, "")); })
-      .style("stroke", function(d) { 
+      .attr("id", function(d){ return d.name+"Node";})
+      .attr("opacity", .9)
+      .attr("fill", function(d) { 
+      return d.color = color(d.name.replace(/ .*/, "")); })
+      .attr("stroke", function(d) { 
       return d.color = color(d.name.replace(/ .*/, "")); })
       .attr("stroke-width", .25)
+      .on("mouseover", function(d) {
+        var b=(d3.select(this));
+        highlightN(b);
+      })
+      .on("mouseout", function(d){
+        var b=(d3.select(this));
+        normalN(b);
+      })
+
+
     .append("title")// correct this later...
       .text(function(d) { 
       return d.name + "\n" + format(d.value); });
 
       //------------------------------- arrow and overlay options-----------------------------------------------------------
-
-        /*if (opt.n==="embeddedArrows"){
-
-           node.append("path") //trianglar mask on node
-                  .attr("d", function(d){
-                      return d.arrow1;
-                  })
-                  .style("fill", function(d) {
-                  if (d.x<100 || (width+margin.right*2)-d.x<200){
-                      return "none";
-                  } else {
-                      return "#ffffff"; }})
-                  .style("stroke", function(d) {
-                  if (d.x<100 || (width+margin.right*2)-d.x<200){
-                      return "none";
-                  } else {
-                      return "#ffffff"; }})
-                  .attr("opacity", 1)
-                  .attr("cursor", "move");
-
-        };*/
 
         if (opt.n==="bracketIcons"){
 
@@ -897,22 +1296,43 @@ var loop = grouplines2.selectAll(".loop")
                   })
                   .style("fill", "#ffffff")
                   .style("stroke", "#ffffff")
+                  .attr("id", function(d){ return d.name+"NodeOver";})
                   .attr("opacity", 1)
-                  .attr("cursor", "move");
+                  .attr("cursor", "move")
+                  .on("mouseover", function(d) {
+                      var b=(d3.select(this));
+                      highlightN(b);
+                    })
+                    .on("mouseout", function(d){
+                      var b=(d3.select(this));
+                      normalN(b);
+                    });
 
           node.append("image") //add pattern as def then d.val to url icon.
                   .attr("x", function(d){
-                    return d.dx/2-8;
+                    return d.dx/2-14;
                   })
                   .attr("y", function(d){
-                    return d.dy/2-8;
+                    return d.dy/2-14;
                   })
-                  .attr("height", 16)
-                  .attr("width", 16)
-                  .attr("stroke", "#757575")
-                  .attr("xlink:href", "img/paper.svg")
+                  .attr("height", 28)
+                  .attr("width", 28)
+                  .attr("id", function(d){ return d.name+"NodeIcon";})
+                  .attr("background", function(d) { 
+                      return d.color = color(d.name.replace(/ .*/, "")); })
+                  .attr("xlink:href", function(d){
+                    return "img/"+d.icon;
+                    }) // the question becomes how to provide/link to icons or let people make their own????... specifying by link is easy.... or really by node..
                   .attr("opacity", 1)
-                  .attr("cursor", "move");
+                  .attr("cursor", "move")
+                  .on("mouseover", function(d) {
+                      var b=(d3.select(this));
+                      highlightN(b);
+                    })
+                    .on("mouseout", function(d){
+                      var b=(d3.select(this));
+                      normalN(b);
+                    });
 
             // need something to pull and fill icons (svg series). . . 
 
@@ -924,14 +1344,15 @@ var loop = grouplines2.selectAll(".loop")
                   .attr("d", function(d){
                       return d.arrow;
                   })
-                  .style("fill", "#ffffff")
+                  .attr("fill", "#ffffff")
                   .attr("opacity", 1);
 
               node.append("path") //triangle basic for arrow
                   .attr("d", function(d){
                       return d.arrow;
                   })
-                  .style("fill", function(d) {
+                  .attr("id", function(d){ console.log(d.name+"Arrow"); return d.name+"Arrow";})
+                  .attr("fill", function(d) {
                   if ((width+margin.right*2)-d.x<200){
                       return "none";
                   } else {
@@ -942,13 +1363,13 @@ var loop = grouplines2.selectAll(".loop")
                   .attr("d", function(d){
                       return d.arrow0;
                   })
-                  .style("stroke", function(d){
+                  .attr("stroke", function(d){
                       if ((width+margin.right*2)-d.x<200){
                       return "none";
                   } else {
                     return "#ffffff";}})
                   .style("stroke-linecap", "round")
-                  .style("fill", "none")
+                  .attr("fill", "none")
                   .style("stroke-width", "5px"); 
         };
 
@@ -987,7 +1408,7 @@ var loop = grouplines2.selectAll(".loop")
           };
           }) // set this to function with google fonts
       .text(function(d) { return d.name; })
-      .on("mouseover", function(d) {
+      /*.on("mouseover", function(d) {
                     //Get this bar's x/y values, then augment for the tooltip
                     var xPosition = parseFloat(d3.select(this).attr("x"));
                     var yPosition = parseFloat(d3.select(this).attr("y")) + 10;
@@ -1076,7 +1497,7 @@ var loop = grouplines2.selectAll(".loop")
                     d3.selectAll("#tooltip").remove();
                     d3.selectAll("#subtitle").remove();
                     
-                   })
+                   })*/
                .on("click", function(d) {
 
                       console.log(this.id);
