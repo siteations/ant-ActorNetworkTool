@@ -38,6 +38,20 @@
   stroke-opacity: .9;
 }
 
+.title {
+  fill: "#ff006a";
+}
+
+#textMain,
+#imagebox {
+    padding:20px 40px; /* Same syntax as box-shadow */
+}
+
+#chart {
+  overflow: hidden; /* can also be "auto" */
+}
+
+
 
 </style>
   <body>
@@ -99,20 +113,21 @@
       <div class="jumbotron" id="intro">
         <h2>actor network tool</h2>
         <h4>Embedded Connections, inflections, & feedback</h4><br>
-       <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-        <p>To see the difference between static and fixed top navbars, just scroll.</p>
-      </div>
-      <div id="features">
-        <br>
-        <h2 style="text-align:center; padding-top:20px">articulation options</h2>
+       <span class= "col-md-1"></span><span class= "col-md-10"><p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+        <p>Vivamus varius hendrerit cursus. Maecenas eget accumsan eros, sed congue tellus. Sed aliquam urna vel risus ultrices dignissim. Praesent blandit nisi quis urna pretium, sed gravida purus congue. Maecenas sodales fermentum augue, vitae facilisis dui sagittis nec. Nunc nulla metus, sodales at lorem non, posuere consectetur justo. Duis consectetur erat in justo ultrices egestas.</p>
+      <p>Vivamus varius hendrerit cursus. Maecenas eget accumsan eros, sed congue tellus. Sed aliquam urna vel risus ultrices dignissim. Praesent blandit nisi quis urna pretium, sed gravida purus congue. Maecenas sodales fermentum augue, vitae facilisis dui sagittis nec. Nunc nulla metus, sodales at lorem non, posuere consectetur justo. Duis consectetur erat in justo ultrices egestas.</p>
+    <p>Vivamus varius hendrerit cursus. Maecenas eget accumsan eros, sed congue tellus. Sed aliquam urna vel risus ultrices dignissim. Praesent blandit nisi quis urna pretium, sed gravida purus congue. Maecenas sodales fermentum augue, vitae facilisis dui sagittis nec. Nunc nulla metus, sodales at lorem non, posuere consectetur justo. Duis consectetur erat in justo ultrices egestas.</p></span><span class= "col-md-1"></span>
+      </div><br>
+      <div> 
+        <h2 style="text-align:center; padding-top:20px" id="features">articulation options</h2>
         <p style="text-align:center;line-height:0px">click for demos: connection types and styling, interactive and interpretive features</p><br>
-        <span class= "col-md-2">
+        <span class= "col-md-2" >
             <h4> nodes </h4>
             <form>
               <input type="radio" name="nOpt" value="defaultNodes" onchange="opt=radioC()" checked> default nodes<br>
               <input type="radio" name="nOpt" value="expandedArrows" onchange="opt=radioC()" > expanded arrows<br> 
               <input type="radio" name="nOpt" value="bracketIcons" onchange="opt=radioC()" > bracket icons<br>
-              <input type="radio" name="nOpt" value="background" onchange="opt=radioC()"> background underlays
+              <input type="radio" name="nOpt" value="tbd" onchange="opt=radioC()"><span style="opacity: .25"> other (tbd) </span>
             </form>      
         </span>
         <span class= "col-md-2">
@@ -121,7 +136,7 @@
               <input type="radio" name="lOpt" value="defaultLinks" onchange="opt=radioC()" checked> default links<br>
               <input type="radio" name="lOpt" value="addLoss" onchange="opt=radioC()"> add/loss links<br>
               <input type="radio" name="lOpt" value="feedback" onchange="opt=radioC()"> feedback links<br> 
-              <input type="radio" name="lOpt" value="percent" onchange="opt=radioC()"> percent links
+              <input type="radio" name="lOpt" value="secondary" onchange="opt=radioC()"> secondary systems
             </form> 
         </span>
         <span class= "col-md-2">
@@ -134,56 +149,80 @@
             </form> 
         </span>
         <span class= "col-md-2">
-            <h4> overlays </h4>
-            <form>
+            <h4><span style="opacity: .5"> (overlays) </span></h4>
+            <form><span style="opacity: .25">
               <input type="radio" name="oOpt" value="defaultTooltips" onchange="opt=radioC()" checked> tooltips variations <br>
               <input type="radio" name="oOpt" value="timeS" onchange="opt=radioC()"> time series<br>
               <input type="radio" name="oOpt" value="typeS" onchange="opt=radioC()"> type series<br> 
-              <input type="radio" name="oOpt" value="background" onchange="opt=radioC()"> tabbed series
+              <input type="radio" name="oOpt" value="customData" onchange="opt=radioC()"> custom data
+            </span>
             </form>  
         </span>
         <span class= "col-md-2">
             <h4> stories </h4>
             <form>
-              <input type="radio" name="sOpt" value="database" onchange="opt=radioC()" checked> database uploads<br>
+              <input type="radio" name="sOpt" value="ct" onchange="opt=radioC()" checked> custom titles <br>
               <input type="radio" name="sOpt" value="iconNav" onchange="opt=radioC()"> icon navigation<br>
-              <input type="radio" name="sOpt" value="linkNav" onchange="opt=radioC()" > linked narratives<br> 
-              <input type="radio" name="sOpt" value="layoutNav" onchange="opt=radioC()" > layout options
+              <input type="radio" name="sOpt" value="linkNav" onchange="opt=radioC()" > linked narratives <br> 
+              <input type="radio" name="sOpt" value="layoutNav" onchange="opt=radioC()" ><span style="opacity: .25"> transect navigation </span>
             </form>  
         </span>
         <span class= "col-md-2">
-            <h4> (embeds)</h4>
-            <form>
+            <h4><span style="opacity: .5"> (embeds)</span></h4>
+            <form><span style="opacity: .25">
               <input type="radio" name="eOpt" value="print/save" id="eOpt" checked> print/save<br>
               <input type="radio" name="eOpt" value="htmlEmbeds" id="eOptA1"> html embeds<br>
               <input type="radio" name="eOpt" value="webGen" id="eOptA2" > web generator<br> 
               <input type="radio" name="eOpt" value="CMS" id="eOptB" > cms plug-ins
-            </form>  
+            </span></form>  
         </span>
       </div>
       <div id="notes" style="padding-top:120px">
         <br>
       <form> 
-      <p id="chartSize" style="text-transform: capitalize"> Drag Nodes to reposition, Hoover/Click on Titles for interaction </p>
-      <p style="font-size:12px; text-transform: capitalize; line-height:4px"> Solid strokes = <em> basic progression from source to target;</em> fading lines = <em> additions or externalities typically considered outside the main system;</em> dashed strokes = <em> feedback from later stages in process </em></p>
-      <p style="font-size:12px; opacity: .5; text-transform: capitalize">Note: Demonstration below doesn't provide full range of choices, but rather the types under development; alternate data structures link to different tables, see <a href:"/#form"> Data Formatting </a> for details </p>
+      <p id="chartSize" style="text-transform: capitalize"> Drag Nodes to reposition, Hover/Click on Titles for interaction (Greyed-Out Options still in development) </p>
+      <p style="font-size:12px; text-transform: capitalize; line-height:10px"> Solid strokes = <em> basic progression from source to target;  </em> fading lines = <em> additions or externalities;  </em> dashed lines = <em> feedback from later stages in process;  </em> dash thin lines =<em> other, secondary networks</em></p>
+      <!--<p style="font-size:12px; opacity: .5; text-transform: capitalize">Note: Demonstration below doesn't provide full range of choices, but rather the types under development; alternate data structures link to different tables, see <a href:"/#form"> Data Formatting </a> for details </p>-->
       </div>
-<div id="chart"></div>
-      <div id="extras">
+      <br>
+      <div id="fixPos"><form>
+              <h5> Options Selected? <input type="button" name="loadStyled" value="re-Load Styled Diagram" style="font-family: Nanami-HM-ExLt; font-size:12" onclick="opt=radioC(); //add function for all here."></input>
+              Good Spacing? <input type="button" name="fixPosition" value="Fix Position" style="font-family: Nanami-HM-ExLt; font-size:12" onclick="fixPosCount = 1; fixed(fixPosCount); console.log(fixPosCount);"></input>
+              </h5>
+              </form></div>
+      <div id="chart">
+        <div id="titleBar"><span id="offt" class="col-md-6"></span><span id="titlet" class="col-md-6"><h4 style="text-align:center"> Custom Title Sits Here</h4></span></div>
+        <br>
+        <div id="icoSpc"></div>
+        <br>
+        <div id="icoNav"></div>
+        <p style="text-align:center; opacity:.5; font-size:8pt">[Icons, Timeline, or Tab Navigation Aides Above]</p>
+        <div id="annoBox"><span class="col-md-1"></span><span id="imagebox" class="col-md-5"><p id="caption1"></p></span>
+          <span id="textbox" class="col-md-5"><h5 id="textTitle" style="text-align:center"></h5><p id="textMain"></p></span><span class="col-md-1"></span><br>
+        </div>
       </div>
-      <div id="form">
+      <div id="form" >
+        <h2 style="text-align:center; padding-top:20px" id="features">data formatting</h2>
+        <p style="text-align:center;line-height:0px">notes on organizing strict and general network data</p><br>
+        <span class= "col-md-1"></span><span class= "col-md-10"><p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+        <p>Vivamus varius hendrerit cursus. Maecenas eget accumsan eros, sed congue tellus. Sed aliquam urna vel risus ultrices dignissim. Praesent blandit nisi quis urna pretium, sed gravida purus congue. Maecenas sodales fermentum augue, vitae facilisis dui sagittis nec. Nunc nulla metus, sodales at lorem non, posuere consectetur justo. Duis consectetur erat in justo ultrices egestas.</p>
+      <p>Vivamus varius hendrerit cursus. Maecenas eget accumsan eros, sed congue tellus. Sed aliquam urna vel risus ultrices dignissim. Praesent blandit nisi quis urna pretium, sed gravida purus congue. Maecenas sodales fermentum augue, vitae facilisis dui sagittis nec. Nunc nulla metus, sodales at lorem non, posuere consectetur justo. Duis consectetur erat in justo ultrices egestas.</p>
+    <p>Vivamus varius hendrerit cursus. Maecenas eget accumsan eros, sed congue tellus. Sed aliquam urna vel risus ultrices dignissim. Praesent blandit nisi quis urna pretium, sed gravida purus congue. Maecenas sodales fermentum augue, vitae facilisis dui sagittis nec. Nunc nulla metus, sodales at lorem non, posuere consectetur justo. Duis consectetur erat in justo ultrices egestas.</p></span><span class= "col-md-1"></span>
       </div> 
     </div> <!-- /container -->
 
 
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/d3.min.js"></script>
 <script src="js/sankeyAlt.js"></script>
+<script src="js/sankeyAppearance.js"></script>
 <script src="js/colorbrewer.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="js/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
 <script src="js/bootstrap.min.js"></script>
-<script src="https://d3js.org/d3-color.v1.min.js"></script>
-<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+<!--<script src="js/d3-color.v1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+<script src="js/d3-interpolate.v1.min.js"></script>-->
     
 
 <script>
@@ -191,6 +230,15 @@
 //--------------------------- radio check-------------------------------------------
       var radioOption={};
       var opt={};
+      var fixPosCount=0;
+
+      var draghold=[];
+
+      function fixed(fx, dm){
+        if (fx>0){
+          d3.selectAll(".node").on('.drag', null);  //d3.selectAll(".node").on('click', '');  
+        };
+      };
 
 
       function radioC(){
@@ -223,64 +271,27 @@ opt=radioC();
 	
 var units = "Units";
 
-var margin = {top: 20, right: 60, bottom: 60, left: 60},
-    width = 1100;
 
-var height = 400 - margin.top - margin.bottom; // should make this very adaptable for legibility
+var width = 1100;
 
-//color gradient options need to be better... create 3-4 nice gradients
-//purple to orange
-//spring green through navy
-//hot red through mustard
-//red through purple
-//etc. 
-
-
-var purorange=["#800080", "#8b0078", "#95006c", "#a0005e", "#aa004d", "#b50039", "#c00022", "#ca0008", "#d51500", "#df3500", "#ea5700", "#f47d00", "#ffa500"];
-var greys=[ "#333333", "#424242", "#515151", "#616161", "#707070", "#7f7f7f", "#8e8e8e", "#9e9e9e", "#adadad", "#bcbcbc", "#cbcbcb", "#dbdbdb", "#eaeaea"]; 
-/*var color = d3.scale.linear()
-    .range(["#800080", "#ffa500"])
-    .interpolate(d3.interpolateHcl);*/
-
-
-  if (opt.c==="colorGradients"){
-      var formatNumber = d3.format(",.0f"),    // zero decimal places
-      format = function(d) { return formatNumber(d) + " " + units; },
-          color = d3.scale.ordinal()
-          .domain(d3.range(7))
-          //.range(custom.purorange);
-          .range(colorbrewer.YlGnBu[9])
-      } else if (opt.c==="greysContrast"){
-      var formatNumber = d3.format(",.0f"),    // zero decimal places
-      format = function(d) { return formatNumber(d) + " " + units; },
-          color = d3.scale.ordinal()
-          .domain(d3.range(7))
-          .range(greys);
-
-      } else {
-      var formatNumber = d3.format(",.0f"),    // zero decimal places
-      format = function(d) { return formatNumber(d) + " " + units; },
-          color = d3.scale.ordinal()
-          .domain([.65, .75])
-          .range(["#333","#333"]);
-      };
-
-
-
+var height = 340; // should make this very adaptable for legibility
 
 // append the svg canvas to the page
-var svg = d3.select("#chart").append("svg")
+var svg = d3.select("#chart").insert("svg", "#icoSpc")
     .attr("width", width)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .attr("height", height)
+    .append("g")
     .attr("transform", 
-          "translate(" + 0 + "," + margin.top + ")");
+          "translate(" + 0 + "," + 0 + ")");
 
     //var groupnodes = svg.append("g");
+    //var nodebackground = svg.append("g").attr("id", "bkimg");
     var grouplines2 = svg.append("g");
-    var grouplines=svg.append("g");
+    var grouplines = svg.append("g");
     var groupnodes = svg.append("g");
-    var groupicons = svg.append("g"); // options for visuals
+    var groupother = svg.append("g"); //other system overlays
+    var groupicons = svg.append("g"); 
+    // options for visuals series should push text/image as part of interaction...js/html and not rely on svg.
 
 // Set the sankey diagram properties
 var sankey = d3.sankey()
@@ -290,12 +301,66 @@ var sankey = d3.sankey()
 
 var path = sankey.link();
 
-// load the data (using the timelyportfolio csv method)
-//d3.csv("data/demoMB.csv", function(error, data) {
-d3.csv("data/sankey.csv", function(error, data) {
+//----------------------------------------------- EXTRA INTERPERATIVE MARKUP ?------------------------------------------------
 
-  //set up graph in same style as original example but empty
-  graph = {"nodes" : [], "links" : [], "adding":[], "loss":[], "loop":[]};// expanded as needed for annotations
+//leave until end of main daigram manipulation, likely a new JS file to coordinate this area...
+
+
+//-------------------------------------------------------------------------DATA OPTIONS opt.l -------------------------------------------------------------------------
+var datasources={defaultLinks:"data/sankey.csv",
+                  addLoss:"data/sankeyAddLoss.csv",
+                  feedback: "data/sankeyLoop.csv",
+                  secondary:"data/sankeySecondary.csv",
+                 };
+
+var load=datasources[opt.l];   
+
+//---------------------------------------------------------------------------------COLOR OPTIONS-------------------------------------------------------------------------
+      var purorange=["#800080", "#8b0078", "#95006c", "#a0005e", "#aa004d", "#b50039", "#c00022", "#ca0008", "#d51500", "#df3500", "#ea5700", "#f47d00", "#ffa500"];
+      var greys=[ "#333333", "#424242", "#515151", "#616161", "#707070", "#7f7f7f", "#8e8e8e", "#9e9e9e", "#adadad", "#bcbcbc", "#cbcbcb", "#dbdbdb", "#eaeaea"];
+
+      //var purorg=["#9D0AF0", "#A51CDD", "#C50AF0", "#C91CDD", "#CE2FCA", "#D341B7", "#D754A4", "#DC6692", "#E1797F", "#E58B6C", "#EA9E59", "#EFB046", "#F4C334"];
+      //var aquayell=["#38a6b4", "#48acaf", "#59b1aa", "#69b7a5", "#79bca1", "#8ac29c", "#9ac797", "#aacd92", "#bbd38d", "#cbd888", "#dbde84", "#ece37f", "#fce97a"];
+
+      //var blues=["#253494", "#253494", "#2d539b", "#3571a1", "#3e8fa7", "#47acae", "#51b4a1", "#5cbb95", "#67c18a", "#72c881", "#81ce7e", "#9dd58a", "#b7db97", "#cee2a5"];
+
+      /*var color = d3.scale.linear()
+          .range(["#38a6b4", "#fce97a"])
+          .interpolate(d3.interpolateHcl);*/
+
+
+        if (opt.c==="colorGradients"){
+            var formatNumber = d3.format(",.0f"),    // zero decimal places
+            format = function(d) { return formatNumber(d) + " " + units; },
+                color = d3.scale.ordinal()
+                .domain(d3.range(7))
+                .range(colorbrewer.YlGnBu[9]);
+                //.range(colorbrewer.YlGnBu[9])
+            } else if (opt.c==="greysContrast"){
+            var formatNumber = d3.format(",.0f"),    // zero decimal places
+            format = function(d) { return formatNumber(d) + " " + units; },
+                color = d3.scale.ordinal()
+                .domain(d3.range(7))
+                .range(greys);
+
+            } else {
+            var formatNumber = d3.format(",.0f"),    // zero decimal places
+            format = function(d) { return formatNumber(d) + " " + units; },
+                color = d3.scale.ordinal()
+                .domain([.65, .75])
+                .range(["#333","#333"]);
+            };
+
+//--------------------------------------------------------DRAWING MAIN SVG----------------------------------------------------------------             
+
+var diagram=d3.csv(load, function(error, data) {
+
+
+  //console.log(data);
+
+
+//ORIGINAL BUTTONS set up graph in same style as original example but empty
+  graph = {"nodes" : [], "links" : [], "adding":[], "loss":[], "loop":[], "other":[]};// expanded as needed for annotations
 
     data.forEach(function (d) {
 
@@ -336,454 +401,77 @@ d3.csv("data/sankey.csv", function(error, data) {
                         "target": d.target,
                          "type": d.type,
                          "value": +d.value});
+
+      } else if (d.type && d.type.match("other")){ //
+        graph.nodes.push({ "name": d.source });
+        graph.nodes.push({ "name": d.target });
+
+        graph.other.push({"name": d.source,
+                        "source": d.source,
+                        "target": d.target,
+                         "type": d.type});
       };
       });
 
     console.log(graph);
 
+//LINK INFO TO SERIES OF NODES...
      // return only the distinct / unique nodes
      graph.nodes = d3.keys(d3.nest()
       //graph.nodes = d3.nest()
        .key(function (d) { return d.name; })
        .map(graph.nodes));
 
-    console.log(graph.nodes);
+     graph.other.keys = d3.keys(d3.nest() // to track alternate stroke pattern types
+      //graph.nodes = d3.nest()
+       .key(function (d) { return d.type; })
+       .map(graph.other));
 
-    // highlight gradients... then link, etc.
+    //console.log(graph);
 
-    var gradientHA = svg.append("defs")
-          .append("linearGradient")
-          .attr("id", "gradHA");
+// GRADIENTS FOR EACH NODE/LINK/ETC. STROKE TYPES FOR EACH OTHER LINK highlight gradients... then link, etc.
 
-          gradientHA.append("stop")
-                  .attr("offset", "0%")
-                  .attr("stop-color", "#ffffff")
-                  .attr("stop-opacity", 0);
+    sankeyGradients();
 
-          gradientHA.append("stop")
-                  .attr("offset", "50%")
-                  .attr("stop-color", "#ff006a")
-                  .attr("stop-opacity", .25);        
-
-          gradientHA.append("stop")
-                  .attr("offset", "100%")
-                  .attr("stop-color", "#ff006a")// pink
-                  .attr("stop-opacity", 1);
-
-    var gradientLA = svg.append("defs")
-          .append("linearGradient")
-          .attr("id", "gradLA");
-
-          gradientLA.append("stop")
-                  .attr("offset", "0%")
-                  .attr("stop-color", "#ff006a")
-                  .attr("stop-opacity", 1);
-
-          gradientLA.append("stop")
-                  .attr("offset", "50%")
-                  .attr("stop-color", "#ff006a")
-                  .attr("stop-opacity", .25);        
-
-          gradientLA.append("stop")
-                  .attr("offset", "100%")
-                  .attr("stop-color", "#ffffff")// pink
-                  .attr("stop-opacity", 0);
-
-
-    var gradientHAG = svg.append("defs")
-          .append("linearGradient")
-          .attr("id", "gradHAG");
-
-          gradientHAG.append("stop")
-                  .attr("offset", "0%")
-                  .attr("stop-color", "#ffffff")
-                  .attr("stop-opacity", 0);
-
-          gradientHAG.append("stop")
-                  .attr("offset", "50%")
-                  .attr("stop-color", "#333333")
-                  .attr("stop-opacity", .25);        
-
-          gradientHAG.append("stop")
-                  .attr("offset", "100%")
-                  .attr("stop-color", "#333333")// grey
-                  .attr("stop-opacity", 1);
-
-    var gradientLAG = svg.append("defs")
-          .append("linearGradient")
-          .attr("id", "gradLAG");
-
-          gradientLAG.append("stop")
-                  .attr("offset", "0%")
-                  .attr("stop-color", "#333333")
-                  .attr("stop-opacity", 1);
-
-          gradientLAG.append("stop")
-                  .attr("offset", "50%")
-                  .attr("stop-color", "#333333")
-                  .attr("stop-opacity", .25);        
-
-          gradientLAG.append("stop")
-                  .attr("offset", "100%")
-                  .attr("stop-color", "#ffffff")// pink
-                  .attr("stop-opacity", 0);
-
-     // loop through each link replacing the text with its index from node
-     graph.links.forEach(function (d, i) {
-       graph.links[i].source = graph.nodes.indexOf(graph.links[i].source);
-       graph.links[i].target = graph.nodes.indexOf(graph.links[i].target);
-       graph.links[i].scolor = color(graph.nodes[graph.links[i].source].replace(/ .*/, "")); // color( name.replace....)
-       graph.links[i].tcolor = color(graph.nodes[graph.links[i].target].replace(/ .*/, ""));
-
-        var gradient = svg.append("defs")
-          .append("linearGradient")
-          .attr("id", "grad"+i);
-
-
-          //gradient.attr("x1", graph.links[i].source.x)
-              //.attr("y1", graph.links[i].source.y)
-              //.attr("x2", graph.links[i].target.x)
-              //.attr("y2", graph.links[i].target.y);
-
-          gradient.append("stop")
-                  .attr("offset", "0%")
-                  .attr("stop-color", graph.links[i].scolor)
-                  .attr("stop-opacity", 1);
-
-          gradient.append("stop")
-                  .attr("offset", "100%")
-                  .attr("stop-color", graph.links[i].tcolor)
-                  .attr("stop-opacity", 1);
-       //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
-     });
-
-         // loop through each link replacing the text with its index from node
-     graph.adding.forEach(function (d, i) {
-       graph.adding[i].source = graph.nodes.indexOf(graph.adding[i].source); //should give a -1 index ... if get -1, search other links and take their x half way between areas
-       graph.adding[i].target = graph.nodes.indexOf(graph.adding[i].target);
-       graph.adding[i].scolor = "#ffffff"; // color( name.replace....)
-       graph.adding[i].tcolor = color(graph.nodes[graph.adding[i].target].replace(/ .*/, ""));
-
-        var gradient = svg.append("defs")
-          .append("linearGradient")
-          .attr("id", "gradA"+i);
-
-          gradient.append("stop")
-                  .attr("offset", "0%")
-                  .attr("stop-color", graph.adding[i].scolor)
-                  .attr("stop-opacity", 0);
-
-          gradient.append("stop")
-                  .attr("offset", "50%")
-                  .attr("stop-color", graph.adding[i].scolor)
-                  .attr("stop-opacity", .25);        
-
-          gradient.append("stop")
-                  .attr("offset", "100%")
-                  .attr("stop-color", graph.adding[i].tcolor)
-                  .attr("stop-opacity", 1);
-
-       //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
-     });
-
-     graph.loss.forEach(function (d, i) {
-       graph.loss[i].source = graph.nodes.indexOf(graph.loss[i].source); 
-       graph.loss[i].target = graph.nodes.indexOf(graph.loss[i].target); //should give a -1 index ... if get -1, search other links and take their x half way between areas
-       graph.loss[i].tcolor = "#ffffff"; // color( name.replace....)
-       graph.loss[i].scolor = color(graph.nodes[graph.loss[i].source].replace(/ .*/, ""));
-
-        var gradient = svg.append("defs")
-          .append("linearGradient")
-          .attr("id", "gradL"+i);
-
-          gradient.append("stop")
-                  .attr("offset", "0%")
-                  .attr("stop-color", graph.loss[i].scolor)
-                  .attr("stop-opacity", 1);
-
-          gradient.append("stop")
-                  .attr("offset", "50%")
-                  .attr("stop-color", graph.loss[i].tcolor)
-                  .attr("stop-opacity", .25);
-
-          gradient.append("stop")
-                  .attr("offset", "100%")
-                  .attr("stop-color", graph.loss[i].tcolor)
-                  .attr("stop-opacity", 0);
-       //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
-     });
-
-     graph.loop.forEach(function (d, i) {
-       graph.loop[i].source = graph.nodes.indexOf(graph.loop[i].source); 
-       graph.loop[i].target = graph.nodes.indexOf(graph.loop[i].target); //should give a -1 index ... if get -1, search other links and take their x half way between areas
-       graph.loop[i].tcolor = color(graph.nodes[graph.loop[i].target].replace(/ .*/, ""));// color( name.replace....)
-       graph.loop[i].scolor = color(graph.nodes[graph.loop[i].source].replace(/ .*/, ""));
-       //graph.loop[i].mcolor = d3.interpolateCubehelix(graph.loop[i].tcolor, graph.loop[i].scolor)(0.5);
-       //graph.loop[i].mcolor = interpolator(.5); 
-
-        var gradient = svg.append("defs")
-          .append("linearGradient")
-          .attr("id", "gradF"+i);
-
-          gradient.append("stop")
-                  .attr("offset", "30%")
-                  .attr("stop-color", graph.loop[i].tcolor)
-                  .attr("stop-opacity", 1);
-
-          gradient.append("stop")
-                  .attr("offset", "70%")
-                  .attr("stop-color", graph.loop[i].scolor)
-                  .attr("stop-opacity", 1);
-
-
-
-       //graph.links[i].color = d3.interpolateRgb(graph.links[i].scolor, graph.links[i].tcolor);
-     });
+    strokedev();  
     
-    // console.log(graph.nodes);
-    // console.log(graph.loop);
-
-     //now loop through each nodes to make nodes an array of objects
-     // rather than an array of strings
+//ICONS... named by node
+    var icons=[]; // use length later as short hand for icon interactions.
      graph.nodes.forEach(function (d, i) {
        graph.nodes[i] = { "name": d };
-       graph.nodes[i].icon=(d.toLowerCase()+".svg"); // icons have been renamed to match node name (easier than table set-up)
-
+       graph.nodes[i].icon=(d.toLowerCase()+".svg");
+       icons.push(d.toLowerCase()+".svg"); // icons have been renamed to match node name (easier than table set-up)
      });
 
-console.log(graph.nodes);
 
-  sankey // so just to summing equations here.....graph = {"nodes" : [], "links" : [], "add":[], "loss":[], "loop":[]};
+
+//RUNNING THE SANKEY FORMULA HERE!
+  sankey // so just to summing equations here
     .nodes(graph.nodes)
     .links(graph.links)
     .adding(graph.adding)
     .loss(graph.loss)
-    .loop(graph.loop) // second round of reworking.
-    .layout(32);
+    .loop(graph.loop)
+    .other(graph.other) 
+    .layout(32);  
 
+  sankey.addingCurve();
+  sankey.lossCurve();
+  sankey.loopCurve(); 
+  sankey.otherCurve();
 
-
-
-function addingCurve (){
-  var sy=0;
-  var n=0;
-  var nodeThis='';
-
-    graph.adding.forEach(function(d){
-      var nodeC=d.target;
-          if (nodeC!==nodeThis){
-            nodeThis=nodeC;
-            sy=0;
-            n=0;
-          } else {
-            n++;
-          };
-
-          //console.log(d);
-      var fbV=0;
-      graph.loop.forEach(function(feedback){
-          if (graph.nodes[feedback.target].name===nodeC.name){
-            fbV+=feedback.value;
-          };
-      });
-
-      var xPos=nodeC.x;
-      var yPos=nodeC.y+nodeC.dy-(nodeC.dy/nodeC.value*fbV)-(nodeC.dy/nodeC.value*d.value/2)-sy; 
-      sy+=(nodeC.dy/nodeC.value*d.value); //top+depth-half of value
-      d.stroke = nodeC.dy/nodeC.value*d.value; 
-
-      var xStart=[0];
-      nodeC.targetLinks.forEach(function(targetL, i){
-        if ((targetL.source.x+targetL.source.dx)>xStart[0]){
-          xStart[0]=(targetL.source.x+targetL.source.dx);
-        };
-      });
-
-      var xPos0=(xPos-Number(xStart))/2+Number(xStart)-n*50;
-
-      var curvature = .5;
-
-          var x0 = xPos0,
-              x01= xPos0-10,
-              x1 = xPos,
-              xi = d3.interpolateNumber(x0, x1),
-              x2 = xi(curvature),
-              x3 = xi(1 - curvature),
-              y0 = height + margin.top,
-              y01= height + margin.top-20,
-              y1 = yPos;
-           d.path="M" + x0 + "," + y0
-                //+ "C" + x0+","+y0
-               + "C" + x2 + "," + y01
-               + " " + x3 + "," + y1
-               + " " + x1 + "," + y1;
-
-      
-        
-    });
-};
-addingCurve();
-
-function lossCurve (){
-  var sy=0,
-      n=0,
-      nodeThis=''; // start counters
-
-  graph.loss.forEach(function(d){
-          var nodeC=d.source;
-
-          if (nodeC!==nodeThis){
-            nodeThis=nodeC;
-            sy=0;
-            n=0;
-          } else {
-            n++;
-          };
-
-          var xPos=nodeC.x+nodeC.dx;
-          var yPos=sy+nodeC.y+(nodeC.dy/nodeC.value*d.value/2);
-          sy+=(nodeC.dy/nodeC.value*d.value);
-          d.stroke = nodeC.dy/nodeC.value*d.value; //top+depth-half of value
-
-          var xStart=[width];
-          nodeC.sourceLinks.forEach(function(targetL, i){
-            if ((targetL.target.x)>xPos&(targetL.target.x)<xStart[0]){
-              xStart[0]=(targetL.target.x);
-            };
-          });
-
-          var xPos0=(Number(xStart)-xPos)/2+Number(xPos)+n*50;
-
-          var curvature = .5;
-
-              var x0 = xPos,
-                  x1 = xPos0,
-                  xi = d3.interpolateNumber(x0, x1),
-                  x2 = xi(curvature),
-                  x3 = xi(1 - curvature),
-                  y0 = yPos,
-                  y01= 20,
-                  y1 = 0;
-               d.path="M" + x0 + "," + y0
-                   + "C" + x2 + "," + y0
-                   + " " + x3 + "," + y1
-                   //+ " " + x3 + "," + y01
-                   + " " + x1 + "," + y1;
-
-                  
-            
-        });
-};
-lossCurve();
-
-function loopCurve (){
-  var ssy=0,
-      sn=0,
-      strokeSt=0;
-      snodeThis=''; // start counters
-  var esy=0,
-      en=0,
-      strokeEn=0;
-      enodeThis=''; // end counters
-
-  graph.loop.forEach(function(d){ // rework from here
-
-          var nodeSt=d.source;
-          //d.source=graph.nodes[nodeSt];
-          var nodeEn=d.target;
-          //d.target=graph.nodes[nodeEn];
-
-
-          if (nodeSt!==snodeThis){
-            snodeThis=nodeSt;
-            ssy=0;
-            sn=0;
-            strokeSt=0;
-          } else {
-            sn++;
-          };
-
-          if (nodeEn!==enodeThis){
-            enodeThis=nodeEn;
-            esy=0;
-            en=0;
-            strokeEn=0;
-          } else {
-            en++;
-          };
-
-
-      nodeSt=graph.nodes[nodeSt];
-      nodeEn=graph.nodes[nodeEn];
-      d.nameEnd=nodeEn.name;
-
-      var xsPos=nodeSt.x+nodeSt.dx; 
-      var ysPos=nodeSt.y+nodeSt.dy-(nodeSt.dy/nodeSt.value*d.value/2)-ssy; 
-      ssy+=(nodeSt.dy/nodeSt.value*d.value); //top+depth-half of value
-      d.stroke = nodeSt.dy/nodeSt.value*d.value;
-      var ysPos0 = nodeSt.y+nodeSt.dy+ d.stroke;
-
-      var xePos=nodeEn.x;
-      var yePos=nodeEn.y+nodeEn.dy-(nodeEn.dy/nodeEn.value*d.value/2)-esy; 
-      esy+=(nodeEn.dy/nodeEn.value*d.value);
-      var yePos0 = nodeEn.y+nodeEn.dy+ d.stroke; //top+depth-half of value
-
-      var xsPosAnc1=xsPos+nodeSt.dx;
-      if (sn=0){
-        var ysPosAnc1=0;
-      } else {
-        var xsPosAnc2=0;
+  graph.other.nodes.forEach(function(d){
+    graph.nodes.forEach(function(e){
+      if (e.name===d.name){
+        e.str=d.str;
       };
-      var xsPosArm=xsPos-nodeSt.dx/3;
+    })
+  });
 
-
-      if ((nodeEn.x + nodeEn.dx*3)>=nodeSt.x 
-        //&& (nodeEn.x - nodeEn.dx*4)<nodeSt.x
-        ){
-        // && nodeSt.y<nodeEn.y){ // top node to bottom
-
-        d.path="M" + xsPos + "," + ysPos
-                +"C" + (xsPos+nodeSt.dx*3) + ","+ ysPos
-                +" "+ (xePos-nodeEn.dx*3)+","+(yePos)
-                +" "+ (xePos)+","+(yePos);
-                
-      } else {
-
-
-           d.path="M" + xsPos + "," + ysPos
-                +"C" + (xsPos+d.stroke*1.5) + ","+ (ysPos)
-                +" "+ (xsPos+d.stroke*1.5)+","+(ysPos0)
-                +" "+ xsPos+","+(ysPos0)
-                +"L"+(xsPos-nodeSt.dx/3)+","+(ysPos0)
-                +"C"+(xsPos-nodeSt.dx*3)+","+(ysPos0)
-                +" "+ (xePos+nodeEn.dx*3)+","+(yePos0)
-                +" "+ (xePos+nodeEn.dx/3)+","+(yePos0)
-                +"L"+xePos+","+(yePos0)
-                +"C" + (xePos-d.stroke*1.5) + ","+ (yePos0)
-                +" "+ (xePos-d.stroke*1.5)+","+yePos
-                +" "+ xePos+","+yePos;
-                
-      };
-          /*  m, move(x0,y0)... then curve at +10, move v-d.stroke*2, then horizontal -node.dx-10, the interpolated(curve), ditto(1-curve), node2.dx and v.y+dy+stoke*2, horizontal dx+10, v+d.stroke*2, horizontal+10... ends
-
-          */
-
-      
-        
-    });
-};
-loopCurve();
-
-
-/* graph.adding[i].target = node number it connects to > so nodes[...]
-  find the node links (ie target links)
-  compare the lenght of said d.x of origin nodes to target node...grab shortest distance and take the x position of halfway to note... = x0, 
-  x1 being the target node d.x... run the link/line generating version on both adds and losses here.
-
-*/
+  console.log(graph);
 
 //check options or update options
- if (jQuery.isEmptyObject(opt)|| opt!=radioC()){
+ if (jQuery.isEmptyObject(opt) || opt!=radioC()){
     opt=radioC();
  };  
 
@@ -799,285 +487,10 @@ if (opt.c==="googleFonts"){
 
 // couple functions for the mouseover/mouseout highlights on LINKS/ADDS/LOSS/LOOPS--------------------------------------------------------
 
-    function highlight(dt){
-            //dt=d3.select(this); which is the starting node
-            //console.log(dt);
+    
 
-            var col="";
-            if ((dt.attr("class")==="link"||dt.attr("class")==="loop") && (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts")){
-                col="#ff006a";
-            } else if ((dt.attr("class")==="link"||dt.attr("class")==="loop") && opt.c==="colorGradients"){
-                col="#333333";
-            } else if (dt.attr("class")==="adding" && (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts")){
-                col="url(#gradHA)";
-            } else if (dt.attr("class")==="adding"){
-                col="url(#gradHAG)";
-            } else if (dt.attr("class")==="loss" && (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts")){
-                col="url(#gradLA)";
-            } else if (dt.attr("class")==="loss"){
-                col="url(#gradLAG)";
-            };
-
-                    if (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts"){ // when in greyscales or not
-                      // if class  link-loop-source, if link-loop-target... stroke for all
-                      if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="loss"){
-                        d3.select(dt.attr("sc")).attr("fill", "#ff006a");
-                        d3.select(dt.attr("sc")+"Node").attr("fill", "#ff006a");
-                        d3.select(dt.attr("sc")+"Node").attr("stroke", "#ff006a");
-                        if (d3.select(dt.attr("sc")+"Arrow")){ 
-                        d3.select(dt.attr("sc")+"Arrow").attr("fill", "#ff006a");
-                        };// arrow heads add if not null
-                      };
-
-                      if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="adding"){ 
-                        d3.select(dt.attr("tg")).attr("fill", "#ff006a");
-                        d3.select(dt.attr("tg")+"Node").attr("fill", "#ff006a");
-                        d3.select(dt.attr("tg")+"Node").attr("stroke", "#ff006a");
-                        if (d3.select(dt.attr("tg")+"Arrow")){ 
-                          d3.select(dt.attr("tg")+"Arrow").attr("fill", "#ff006a");
-                          };
-                      };
-
-                      dt.attr("stroke", col);
-
-                  } else { // when in color this is greyscale
-
-                    if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="loss"){ 
-                      d3.select(dt.attr("sc")).attr("fill", "#333333");
-                      d3.select(dt.attr("sc")+"Node").attr("fill", "#333333");
-                      d3.select(dt.attr("sc")+"Node").attr("stroke", "#333333");
-                      if (d3.select(dt.attr("sc")+"Arrow")){ 
-                        d3.select(dt.attr("sc")+"Arrow").attr("fill", "#333333");
-                        };
-                    };
-                    if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="adding"){
-                      d3.select(dt.attr("tg")).attr("fill", "#333333");
-                      d3.select(dt.attr("tg")+"Node").attr("fill", "#333333");
-                      d3.select(dt.attr("tg")+"Node").attr("stroke", "#333333");
-                      if (d3.select(dt.attr("tg")+"Arrow")){ 
-                        d3.select(dt.attr("tg")+"Arrow").attr("fill", "#333333");
-                        };
-                    };
-
-                      dt.attr("stroke", col);
-                  };
-          };
-
-    function normal(dt){
-            //dt=d3.select(this);
-
-             var gradient1=dt.attr("C1");
-
-              if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="loss"){
-                var solids=solids=d3.select(dt.attr("sc")+"Node").attr("C1");
-
-                      d3.select(dt.attr("sc")).attr("fill", "#333333");
-                      d3.select(dt.attr("sc")+"Node").attr("fill", solids);
-                      d3.select(dt.attr("sc")+"Node").attr("stroke", solids);
-                      if (d3.select(dt.attr("sc")+"Arrow")){ 
-                        d3.select(dt.attr("sc")+"Arrow").attr("fill", solids);
-                        };
-              };
-              if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="adding"){
-                  var solidt=d3.select(dt.attr("tg")+"Node").attr("C1");
-
-                      d3.select(dt.attr("tg")).attr("fill", "#333333");
-                      d3.select(dt.attr("tg")+"Node").attr("fill", solidt);
-                      d3.select(dt.attr("tg")+"Node").attr("stroke", solidt);
-                      if (d3.select(dt.attr("tg")+"Arrow")){ 
-                        d3.select(dt.attr("tg")+"Arrow").attr("fill", solidt);
-                        };
-              };
-                      dt.attr("stroke", gradient1);
-                      
-          };
-
-// highlights mouseover/mouse-out for the NODES AND THEIR LINKS (SOURCE/TARGET)--------------------------------------------------------------------------------
-    // similar highlights to above
-    //  should there be a pop-up label? for a placeholder rectangle below node (subtitle to be decided, triggered?) - go above/below as opposed to label trigger
-    function highlightN(dt){
-            //dt=d3.select(this);
-            //NodeOver and NodeIcon for the bracket interactions to be more general.
-            var nodeOrigin='';
-            if (dt.attr("id").match("NodeOver")){ nodeOrigin = "#"+dt.attr("id").replace("NodeOver", ''); 
-            } else if (dt.attr("id").match("NodeIcon")){ nodeOrigin = "#"+dt.attr("id").replace("NodeIcon", ''); 
-            } else { nodeOrigin = "#"+dt.attr("id").replace("Node", ''); };
-            console.log(nodeOrigin);
-            var highLink=[], // to hold all source links // target links
-                highNodes=[]; // the nodes at the end of those links
-
-            var mainNode=graph.nodes.filter(function(d){
-                  return d.name===nodeOrigin.slice(1);
-                });
-                
-                mainNode[0].sourceLinks.forEach(function(source){
-                  highLink.push("#"+source.source.name+source.target.name);
-                  if (source.target !== -1){ 
-                      highNodes.push("#"+source.target.name+"Node"); 
-                      //highLink.push(source.source.name+source.target.name); 
-                    };
-                });
-                mainNode[0].targetLinks.forEach(function(target){
-                  highLink.push("#"+target.source.name+target.target.name);
-                  if (target.source !== -1){ highNodes.push("#"+target.source.name+"Node"); };
-                }); 
-
-                graph.loop.forEach(function(loop){
-                  if (loop.name === nodeOrigin.slice(1)){
-                    highLink.push("#"+loop.name+loop.nameEnd);
-                    highNodes.push("#"+loop.nameEnd+"Node"); 
-                  } else if (loop.nameEnd === nodeOrigin.slice(1)){
-                    highLink.push("#"+loop.name+loop.nameEnd);
-                    highNodes.push("#"+loop.name+"Node");
-                  };
-                });
-
-            var col="";
-            var colA="";
-            var colL="";
-            if (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts"){
-                col="#ff006a";
-                colA="url(#gradHA)";
-                colL="url(#gradLA)";
-            } else if (opt.c==="colorGradients"){
-                col="#333333";
-                colA="url(#gradHAG)";
-                colL="url(#gradLAG)";
-            };
-            
-
-                // original node filling
-                      d3.select(nodeOrigin+"Node").attr("fill", col);
-                      d3.select(nodeOrigin+"Node").attr("stroke", col);
-                      d3.select(nodeOrigin).attr("fill", col);
-                        if (d3.select(nodeOrigin+"Arrow")){ 
-                        d3.select(nodeOrigin+"Arrow").attr("fill", col);
-                        };
-
-                // loop throught additional nodes
-                //console.log(nodeOrigin, highLink, highNodes);
-                highLink.forEach(function(link){
-                  if (d3.selectAll(link).attr("class")==="link"||d3.selectAll(link).attr("class")==="loop"){ 
-                    d3.selectAll(link).attr("stroke", col);
-                  } else if (d3.selectAll(link).attr("class")==="adding"){
-                    d3.selectAll(link).attr("stroke",colA);
-                  } else if (d3.selectAll(link).attr("class")==="loss"){
-                    d3.selectAll(link).attr("stroke",colL);
-                  };
-                });
-
-                highNodes.forEach(function(node){
-                    d3.selectAll(node).attr("fill", col);
-                    d3.selectAll(node).attr("stroke", col);
-                    var nodetext=node.slice(0,-4);
-                      d3.select(nodetext).attr("fill", col);
-                    if (d3.select(node+"Arrow")){ 
-                        d3.select(node+"Arrow").attr("fill", col);
-                        };
-                });
-          };
-
-    function normalN(dt){
-            //dt=d3.select(this);
-
-            // will have to collect original colors for each type... all will be different
-            var nodeOrigin='';
-            if (dt.attr("id").match("NodeOver")){ nodeOrigin = "#"+dt.attr("id").replace("NodeOver", ''); 
-            } else if (dt.attr("id").match("NodeIcon")){ nodeOrigin = "#"+dt.attr("id").replace("NodeIcon", ''); 
-            } else { nodeOrigin = "#"+dt.attr("id").replace("Node", ''); };
-            console.log(nodeOrigin);
-
-            var highLink=[], // to hold all source links // target links
-                highNodes=[];
-
-            //var col=dt.attr("C1"); // will have to collect original colors for each type... all will be different
-                //colLink=[],
-                //colNodes=[];
-
-            var mainNode=graph.nodes.filter(function(d){
-                  return d.name===nodeOrigin.slice(1);
-                });
-                
-                mainNode[0].sourceLinks.forEach(function(source){
-                  highLink.push("#"+source.source.name+source.target.name);
-                  if (source.target !== -1){ 
-                      highNodes.push("#"+source.target.name+"Node"); 
-                      //highLink.push(source.source.name+source.target.name); 
-                    };
-                });
-                mainNode[0].targetLinks.forEach(function(target){
-                  highLink.push("#"+target.source.name+target.target.name);
-                  if (target.source !== -1){ highNodes.push("#"+target.source.name+"Node"); };
-                }); 
-
-                graph.loop.forEach(function(loop){
-                  if (loop.name === nodeOrigin.slice(1)){
-                    highLink.push("#"+loop.name+loop.nameEnd);
-                    highNodes.push("#"+loop.nameEnd+"Node"); 
-                  } else if (loop.nameEnd === nodeOrigin.slice(1)){
-                    highLink.push("#"+loop.name+loop.nameEnd);
-                    highNodes.push("#"+loop.name+"Node");
-                  };
-                });
-                //console.log(graph.loop);
-                console.log(nodeOrigin, highLink, highNodes);
-
-
-                // original node filling
-                var colN=d3.select(nodeOrigin+"Node").attr("C1");
-                      d3.select(nodeOrigin+"Node").attr("fill", colN);
-                      d3.select(nodeOrigin+"Node").attr("stroke", colN);
-                      d3.select(nodeOrigin).attr("fill", "#333333");
-                        if (d3.select(nodeOrigin+"Arrow")){ 
-                        d3.select(nodeOrigin+"Arrow").attr("fill", colN);
-                        };
-
-                // links
-                highLink.forEach(function(link){
-                  col=d3.select(link).attr("C1");
-                  d3.selectAll(link).attr("stroke", col);
-                });
-
-                // nodes
-                highNodes.forEach(function(node){
-                    //console.log(node);
-                    col=d3.select(node).attr("C1");
-                    d3.selectAll(node).attr("fill", col);
-                    d3.selectAll(node).attr("stroke", col);
-                    var nodetext=node.slice(0,-4);
-                      d3.select(nodetext).attr("fill", "#333333");
-                    if (d3.select(node+"Arrow")){ 
-                        d3.select(node+"Arrow").attr("fill", col);
-                        };
-                });
-
-
-
-              /*if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="loss"){
-                var solids=solids=d3.select(dt.attr("sc")+"Node").attr("C1");
-
-                      d3.select(dt.attr("sc")).attr("fill", "#333333");
-                      d3.select(dt.attr("sc")+"Node").attr("fill", solids);
-                      d3.select(dt.attr("sc")+"Node").attr("stroke", solids);
-                      if (d3.select(dt.attr("sc")+"Arrow")){ 
-                        d3.select(dt.attr("sc")+"Arrow").attr("fill", solids);
-                        };
-              };
-              if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="adding"){
-                  var solidt=d3.select(dt.attr("tg")+"Node").attr("C1");
-
-                      d3.select(dt.attr("tg")).attr("fill", "#333333");
-                      d3.select(dt.attr("tg")+"Node").attr("fill", solidt);
-                      d3.select(dt.attr("tg")+"Node").attr("stroke", solidt);
-                      if (d3.select(dt.attr("tg")+"Arrow")){ 
-                        d3.select(dt.attr("tg")+"Arrow").attr("fill", solidt);
-                        };
-              };
-                      dt.attr("fill", gradient1);*/
-                      
-          };
-
-// 
+// highlights mouseover/mouse-out for the NODES AND THEIR LINKS (SOURCE/TARGET)------see gradient file to edit
+ 
 
 // add in the links
   var link = grouplines.selectAll(".link")
@@ -1141,7 +554,7 @@ var adding = grouplines2.selectAll(".adding")
 
 var loss = grouplines2.selectAll(".loss")
       .data(graph.loss)
-    .enter().append("path")
+      .enter().append("path")
       .attr("class", "loss")
       .attr("id", function(d){ return d.source.name+d.target.name; })
       .attr("sc", function(d){ return "#"+d.source.name;})
@@ -1194,7 +607,7 @@ var loop = grouplines2.selectAll(".loop")
       .on("mouseout", function(d){
         var b=(d3.select(this));
         normal(b);
-      }) ;
+      });
 
   loop.append("title")
         .text(function(d) {
@@ -1206,7 +619,16 @@ var loop = grouplines2.selectAll(".loop")
   var node = groupnodes.selectAll(".node")
       .data(graph.nodes)
     .enter().append("g")
-      .attr("class", "node")      
+      .attr("class", "node")
+      .attr("id", function(d){
+        return d.name+"NodeGroup";
+      })
+      .attr("dx", function(d){
+        return d.x;
+      })
+      .attr("dy", function(d){
+        return d.y;
+      })      
       .attr("transform", function(d) { 
 		    return "translate(" + d.x + "," + d.y + ")"; })
     .call(d3.behavior.drag()
@@ -1214,6 +636,9 @@ var loop = grouplines2.selectAll(".loop")
       .on("dragstart", function() { 
 		      this.parentNode.appendChild(this); })
       .on("drag", dragmove));
+
+
+  //node.on(".drag", null); set up fix button and then use to trigger .drag, null;
 
       var triFunction = d3.svg.line()
                         .x(function(d) { return d.x; })
@@ -1225,24 +650,18 @@ var loop = grouplines2.selectAll(".loop")
     graph.nodes.forEach(function(d){ // the coordinates for all arrow systems
         var lineData=[{"x":d.dx, "y":-5}, {"x":d.dx+5, "y":-5}, {"x":.33*d.dy+d.dx+5, "y":d.dy/2}, {"x":d.dx+5, "y":d.dy+5}, {"x":d.dx, "y":d.dy+5}, {"x":d.dx, "y":0}];
         var lineData0=[{"x":d.dx+5, "y":-5}, {"x":.33*d.dy+d.dx+5, "y":d.dy/2}, {"x":d.dx+5, "y":d.dy+5}]; //excess arrows white line
-
-        //var lineData1=[{"x":5, "y":0}, {"x":d.dx/4*3, "y":0}, {"x":d.dx, "y":d.dy/2}, {"x":d.dx/4*3, "y":d.dy}, {"x":5, "y":d.dy}, {"x":d.dx/2, "y":d.dy/2}, {"x":5, "y":0}]; //embedded arrow white out
-       var lineData1=[{"x":d.dx/2, "y":0}, {"x":d.dx/8*7, "y":0}, {"x":d.dx, "y":d.dy/2}, {"x":d.dx/8*7, "y":d.dy}, {"x":d.dx/2, "y":d.dy}, {"x":d.dx/8*5, "y":d.dy/2}, {"x":d.dx/2, "y":0}]; //embedded arrow white out
-
-        var lineData2=[{"x":5, "y":5}, {"x":d.dx-5, "y":5}, {"x":d.dx-5, "y":d.dy-5}, {"x":5, "y":d.dy-5}];
+        var lineData2=[{"x":5, "y":5}, {"x":d.dx-5, "y":5}, {"x":d.dx-5, "y":d.dy-5}, {"x":5, "y":d.dy-5}]; // bracket boxes
         var lineData2a=[{"x":(5+d.dx/10), "y":0}, {"x":(d.dx-5-d.dx/10), "y":0}, {"x":(d.dx-5-d.dx/10), "y":d.dy}, {"x":(5+d.dx/10), "y":d.dy}];
+        d.count=0;
 
 
         //console.log(lineData);
         d.arrow=triFunction(lineData);
         d.arrow0=triFunction(lineData0);
-        d.arrow1=triFunction(lineData1);
         d.arrow2=triFunction(lineData2);
         d.arrow2a=triFunction(lineData2a);
       });
 
-      //console.log(graph.nodes);
-      //console.log(width+margin.right*2);
 
   //-------------------------------adding the different articulations/arrows----------------------------------------------    
 
@@ -1268,16 +687,30 @@ var loop = grouplines2.selectAll(".loop")
       .on("mouseover", function(d) {
         var b=(d3.select(this));
         highlightN(b);
+        overN(b);
+        
       })
       .on("mouseout", function(d){
         var b=(d3.select(this));
         normalN(b);
+        overNO(b);
+        
+      })
+      .on("click", function(d){
+        d.count+=1;
+        var b=(d3.select(this));
+        bigAnno(b);
+
+        /*if (d.count%2!==0 || (d3.select("#textTitle").text()==='')){
+          //overN(b);
+          bigAnno(b);
+        } else {
+          //overNO(b);
+          bigAnnoNO();
+
+        };*/
       })
 
-
-    .append("title")// correct this later...
-      .text(function(d) { 
-      return d.name + "\n" + format(d.value); });
 
       //------------------------------- arrow and overlay options-----------------------------------------------------------
 
@@ -1294,19 +727,37 @@ var loop = grouplines2.selectAll(".loop")
                   .attr("d", function(d){
                       return d.arrow2a;
                   })
-                  .style("fill", "#ffffff")
-                  .style("stroke", "#ffffff")
+                  .attr("fill", "#ffffff")
+                  .attr("stroke", "#ffffff")
                   .attr("id", function(d){ return d.name+"NodeOver";})
                   .attr("opacity", 1)
                   .attr("cursor", "move")
                   .on("mouseover", function(d) {
                       var b=(d3.select(this));
                       highlightN(b);
+                      overN(b);
+                      
                     })
                     .on("mouseout", function(d){
                       var b=(d3.select(this));
                       normalN(b);
-                    });
+                      overNO(b);
+                      
+                    })
+                    .on("click", function(d){
+                         d.count+=1;
+                        var b=(d3.select(this));
+                        bigAnno(b);
+
+                        /*if (d.count%2!==0 || (d3.select("#textTitle").text()==='')){
+                          //overN(b);
+                          bigAnno(b);
+                        } else {
+                          //overNO(b);
+                          bigAnnoNO();
+
+                        };*/
+                      });
 
           node.append("image") //add pattern as def then d.val to url icon.
                   .attr("x", function(d){
@@ -1328,17 +779,35 @@ var loop = grouplines2.selectAll(".loop")
                   .on("mouseover", function(d) {
                       var b=(d3.select(this));
                       highlightN(b);
+                      overN(b);
+
                     })
                     .on("mouseout", function(d){
                       var b=(d3.select(this));
                       normalN(b);
-                    });
+                      overNO(b);
+                      
+                    })
+                    .on("click", function(d){
+                          d.count+=1;
+                          var b=(d3.select(this));
+                          bigAnno(b);
+
+                          /*if (d.count%2!==0 || (d3.select("#textTitle").text()==='')){
+                            //overN(b);
+                            bigAnno(b);
+                          } else {
+                            //overNO(b);
+                            bigAnnoNO();
+
+                          };*/      
+                      });
 
             // need something to pull and fill icons (svg series). . . 
 
         };
 
-        if (opt.n==="expandedArrows" || opt.n==="background" ){
+        if (opt.n==="expandedArrows"){
 
               node.append("path") //triangle basic for arrow (underlay)
                   .attr("d", function(d){
@@ -1351,12 +820,9 @@ var loop = grouplines2.selectAll(".loop")
                   .attr("d", function(d){
                       return d.arrow;
                   })
-                  .attr("id", function(d){ console.log(d.name+"Arrow"); return d.name+"Arrow";})
+                  .attr("id", function(d){ return d.name+"Arrow";})
                   .attr("fill", function(d) {
-                  if ((width+margin.right*2)-d.x<200){
-                      return "none";
-                  } else {
-                      return d.color = color(d.name.replace(/ .*/ , "")); }})
+                    return d.color = color(d.name.replace(/ .*/ , "")); })
                   .attr("opacity", .9);
 
               node.append("path") //triangle edge for arrow
@@ -1364,19 +830,11 @@ var loop = grouplines2.selectAll(".loop")
                       return d.arrow0;
                   })
                   .attr("stroke", function(d){
-                      if ((width+margin.right*2)-d.x<200){
-                      return "none";
-                  } else {
-                    return "#ffffff";}})
-                  .style("stroke-linecap", "round")
+                      return "#ffffff";})
+                  .attr("stroke-linecap", "round")
                   .attr("fill", "none")
-                  .style("stroke-width", "5px"); 
+                  .attr("stroke-width", "5px"); 
         };
-
-    
-
-
-// change this to a set of options - rectangle, arrow/arrow impression sq, arrow extended, other
 
 // add in the title for the nodes
   node.append("text") 
@@ -1407,130 +865,191 @@ var loop = grouplines2.selectAll(".loop")
             return gFont;
           };
           }) // set this to function with google fonts
-      .text(function(d) { return d.name; })
-      /*.on("mouseover", function(d) {
-                    //Get this bar's x/y values, then augment for the tooltip
-                    var xPosition = parseFloat(d3.select(this).attr("x"));
-                    var yPosition = parseFloat(d3.select(this).attr("y")) + 10;
-                    var id="#"+this.id;
-                    console.log(id);
-                    //Create the tooltip label
-                    if (opt.n==="bracketIcons"|| opt.n==="defaultNodes"){
+      .text(function(d) { return d.name; });
 
-                            d3.select(id).append("rect")
-                                 .attr("id", "tooltip")
-                                 //.attr("x", xPosition-10)
-                                 .attr("x", xPosition+22)
-                                 .attr("y", yPosition)
-                                 .attr("width", 150)
-                                 .attr("height", 20)
-                                 .attr("rx", 5)
-                                 .attr("ry", 5)
-                                 .attr("fill", "#ffffff")
-                                 .attr("stroke-width", .5)
-                                 .attr("stroke", "#e7e7e7")
-                                 .attr("opacity", .9)
-                                 .filter(function(d){ return d.x > width /8*7; })
-                                 .attr ("x", function(d){return xPosition-d.dx-130});
-                            // add in the subtitle for the nodes
-                            d3.select(id).append("text") 
-                                .attr("id", "subtitle")
-                                .attr("x", xPosition+25)
-                                .attr("y", yPosition+10)
-                                .attr("dy", ".35em")
-                                .attr("text-anchor", "start")
-                                .attr("font-family", function(d){
-                                  if (opt.c!=="googleFonts"){
-                                    return "inherit";
-                                    } else {
-                                      return gFontp;
-                                    };
-                                    })
-                                .attr("text-transform", "lowercase")
-                                .attr("font-size", 12)// set this to function with google fonts
-                                .text(function(d) { return "short subtitle to go here"; })
-                                .filter(function(d){ return d.x > width /8*7; })
-                                .attr ("x", function(d){return xPosition-d.dx-125});
-                          } else {
+//----------------------------------THE OVERLAID SYSTEMS----------------------------------------------------------------------------------------
 
-                            // add background image fill of svg group...
+    node.append("rect")
+      .attr("x", function(d){
+        var x=d3.select(this).attr("dx");
+        return Number(x)-2;
+      })
+      .attr("y", function(d){
+        var y=d3.select(this).attr("dy");
+        return Number(y)-2;
+      })
+      .attr("id", function(d){return d.name+"otherNode";})
+      .attr("width", function(d){
+        var xw=d3.select("#"+d.name+"Node").attr("width");
+        return (Number(xw)+4);
+      })
+      .attr("height", function(d){
+        var yh=d3.select("#"+d.name+"Node").attr("height");
+        return (Number(yh)+4);
+      })
+      .attr("stroke", function(d){
+        if (d.str){return "#333333";} else {return "none"};
+      })
+      .attr("stroke-width", 1)
+      .attr("fill", "none")
+      .attr("stroke-dasharray", function(d){
+        if (d.str){return d.str[0], d.str[1];};
+      });
 
-                            d3.select(id).append("rect")
-                                 .attr("id", "tooltip")
-                                 .attr("x", xPosition-160)
-                                 .attr("y", yPosition)
-                                 .attr("width", 150)
-                                 .attr("height", 20)
-                                 .attr("rx", 5)
-                                 .attr("ry", 5)
-                                 .attr("fill", "#ffffff")
-                                 .attr("stroke-width", .5)
-                                 .attr("stroke", "#e7e7e7")
-                                 .attr("opacity", .9)
-                                 .filter(function(d){ return d.x > width /8*7; })
-                                 .attr ("x", function(d){return xPosition-d.dx-130});
+  var other = groupnodes.selectAll(".linkOther")
+      .data(graph.other)
+      .enter().append("path") //x1,x2 y1,y2
+      .attr("class", "linkOther")
+      .attr("d", function(d){
+        return d.path;})
+      .attr("id", function(d){ return d.source+d.target+"other"; })
+      .attr("stroke-dasharray", function(d){
+        return d.str[0], d.str[1];
+      })
+      .attr("stroke", function(d){
+        if (d.str){return "#333333";} else {return "none"};
+      })
+      .attr("stroke-width", 1)
+      .attr("fill", "none")
+      ;
+//--------------------------------------------------------ICON NAVIGATIONS HERE-------------------------------------------------------------------------------------
+var icoN=graph.nodes.length;
+var icoW=icoN*24+(icoN-1)*24;
+var icoS=0;//start to be added to
+var countR=(width/24)/2;
+var rowCts=[];//start new row on index [i]....
+var rowC =1;
 
-                          d3.select(id).append("text")
-                                .attr("id", "subtitle") 
-                                .attr("x", xPosition-150)
-                                //.attr("x", xPosition-5)
-                                .attr("y", yPosition+10)
-                                .attr("dy", ".35em")
-                                .attr("text-anchor", "start")
-                                .attr("text-transform", "lowercase")
-                                .attr("font-family", function(d){
-                                  if (opt.c!=="googleFonts"){
-                                    return "inherit";
-                                    } else {
-                                      return gFontp;
-                                    };
-                                    })
-                                .attr("font-size", 12)// set this to function with google fonts
-                                .text(function(d) { return "short subtitle to go here"; })
-                                .filter(function(d){ return d.x > width /8*7; })
-                                .attr ("x", function(d){return xPosition-d.dx-120});;
-                          };
-                          })
+if (icoW<=width){
+  icoS=((width-icoW)/2);
+}else{
+  rowC=Math.ceil(icoN/countR); //number of rows... try to stack/center
+  var indexBr=Math.ceil(iconN/rowC); // of icons per row
+  var icoBW=indexBr*24+(indexBr-1)*24;
+  icoS=(width-icoBW)/2;
 
-               .on("mouseout", function() { 
-                    
-                    d3.selectAll("#tooltip").remove();
-                    d3.selectAll("#subtitle").remove();
-                    
-                   })*/
-               .on("click", function(d) {
+  for (var i=1; i=rowC; i++){
+    rowCts.push(i*(indexBr-1)); //so able to test icon[i]<rowCts[j]....to treat each row seperately.
+  };
+};//find row #s
 
-                      console.log(this.id);
-                   });
-    /*.filter(function(d) { return d.x < width /8; })
-      .attr("x", 0) // set this to vary based on the arrow options...
-      .attr("text-anchor", "start")
-      .attr("stroke", "none");*/
+graph.nodes.forEach(function(node, i){
+  if (rowC>1){
+      for (var j=1;j<=rowC;j++){ // at 2
+          if (i>=rowCts[j-1]&&i<rowCts[j]){ //greater than first break, less than or equal to second break
+            node.ix=((i-rowCts[j-1])*48)+icoS;
+            node.iy=(j*38)+12; 
+          };
+      };
+    };
+    node.ix=(i*48)+icoS;
+    node.iy=12;
+});
+
+console.log(graph.nodes);
 
 
-// the function for moving the nodes in both the x and the y
-  function dragmove(d) {
+var svg2 = d3.select("#icoNav").append("svg")
+    .attr("width", width)
+    .attr("height", 38*rowC);
+
+
+  var iconsLower = svg2.selectAll(".iNav")
+          .data(graph.nodes)
+          .enter().append("g");
+
+    iconsLower.append("image")
+          .attr("class", "iNav")
+          .attr("id", function(d){ return d.name+"iNav";})
+          .attr("x", function(d){return d.ix;})
+          .attr("y", function(d){return d.iy;})
+          .attr("xlink:href", function(d){
+                      return "img/"+d.icon;
+          })
+          .attr("height", 24)
+          .attr("width", 24)
+          .attr("opacity", 1)
+          .on("mouseover", function(d) {
+            var b=(d3.select(this));
+            b.attr("opacity", .5);
+            d3.select("#"+d.name+"itNav").attr("opacity", .5);
+
+            highlightN(b);
+            overN(b);
+
+          })
+          .on("mouseout", function(d) {
+            var b=(d3.select(this));
+            b.attr("opacity", 1);
+            d3.select("#"+d.name+"itNav").attr("opacity", 1);
+
+            normalN(b);
+            overNO(b);            
+          })
+          .on("click", function(d){
+                d.count+=1;
+                var b=(d3.select(this));
+                bigAnno(b);
+
+                /*if (d.count%2!==0 || (d3.select("#textTitle").text()==='')){
+                  //overN(b);
+                  bigAnno(b);
+                } else {
+                  //overNO(b);
+                  bigAnnoNO();
+
+                };*/
+            });
+
+
+  iconsLower.append("text")
+                  .text(function(d){ return d.name;})
+                  .attr("id", function(d){ return d.name+"itNav";})
+                  .attr("x", function(d){return d.ix+12;})
+                  .attr("y", function(d){return d.iy-3;})
+                  .attr("text-anchor", "middle")
+                  .attr("font-size", 12)
+                  .attr("fill", "#333333");
+                  //.on("mouseover", function(d) {})
+                  //.on("mouseout", function(d) {})
+                  //.on("click", function(d) {})
+
+
+// -------------------------------------------------the function for moving the nodes in both the x and the y
+function dragmove(d) {
     d3.select(this).attr("transform", 
         "translate(" + (d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))) + "," + (
                 d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
             ) + ")");
     sankey.relayout();
-    addingCurve();
-    lossCurve();
-    loopCurve();
+    sankey.addingCurve();
+    sankey.lossCurve();
+    sankey.loopCurve();
+    sankey.otherCurve();
+
     link.attr("d", path);
     adding.attr("d", function(d){
-        return d.path;})
+        return d.path;});
     loss.attr("d", function(d){
-        return d.path;})
+        return d.path;});
     loop.attr("d", function(d){
         return d.path;});
-  }
+    other.attr("d", function(d){
+        return d.path;});
+    overNOAll();
+
+    //console.log(d);
+  };
+
+draghold.push(dragmove);
+
 });
+
 
 </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+    <script src="js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
 

@@ -7,8 +7,7 @@ d3.sankey = function() {
       links = [],
       adding = [],
       loss = [],
-      loop = [],
-      other=[];
+      loop = [];
 
   sankey.nodeWidth = function(_) {
     if (!arguments.length) return nodeWidth;
@@ -52,13 +51,7 @@ d3.sankey = function() {
     return sankey;
   };
 
-  sankey.other = function(_) {
-    if (!arguments.length) return loop;
-    other = _;
-    return sankey;
-  };
-
-  var h='';
+var h='';
   sankey.size = function(_) {
     if (!arguments.length) return size;
     size = _;
@@ -106,228 +99,15 @@ d3.sankey = function() {
       curvature = +_;
       return link;
     };
+    //console.log(link);
     return link;
   };
 
-  sankey.addingCurve = function() {
-  var sy=0;
-  var n=0;
-  var nodeThis='';
+  //sankey.addingCurve (shift to this table)
 
-    adding.forEach(function(d){
-      var nodeC=d.target;
-          if (nodeC!==nodeThis){
-            nodeThis=nodeC;
-            sy=0;
-            n=0;
-          } else {
-            n++;
-          };
-          
-      var fbV=0;
-      loop.forEach(function(feedback){
-          if (nodes[feedback.target].name===nodeC.name){
-            fbV+=feedback.value;
-          };
-      });
+  //sankey.lossCurve (shift to this table)
 
-      var xPos=nodeC.x;
-      var yPos=nodeC.y+nodeC.dy-(nodeC.dy/nodeC.value*fbV)-(nodeC.dy/nodeC.value*d.value/2)-sy; 
-      sy+=(nodeC.dy/nodeC.value*d.value); //top+depth-half of value
-      d.stroke = nodeC.dy/nodeC.value*d.value; 
-
-      var xStart=[0];
-      nodeC.targetLinks.forEach(function(targetL, i){
-        if ((targetL.source.x+targetL.source.dx)>xStart[0]){
-          xStart[0]=(targetL.source.x+targetL.source.dx);
-        };
-      });
-
-      var xPos0=(xPos-Number(xStart))/2+Number(xStart)-n*50;
-
-      var curvature = .5;
-
-          var x0 = xPos0,
-              x01= xPos0-10,
-              x1 = xPos,
-              xi = d3.interpolateNumber(x0, x1),
-              x2 = xi(curvature),
-              x3 = xi(1 - curvature),
-              y0 = height + 0,
-              y01= height + 0-20,
-              y1 = yPos;
-           d.path="M" + x0 + "," + y0
-                //+ "C" + x0+","+y0
-               + "C" + x2 + "," + y01
-               + " " + x3 + "," + y1
-               + " " + x1 + "," + y1;    
-    });
-
-};
-
-  sankey.lossCurve = function(){
-  var sy=0,
-      n=0,
-      nodeThis=''; // start counters
-
-  loss.forEach(function(d){
-          var nodeC=d.source;
-
-          if (nodeC!==nodeThis){
-            nodeThis=nodeC;
-            sy=0;
-            n=0;
-          } else {
-            n++;
-          };
-
-          var xPos=nodeC.x+nodeC.dx;
-          var yPos=sy+nodeC.y+(nodeC.dy/nodeC.value*d.value/2);
-          sy+=(nodeC.dy/nodeC.value*d.value);
-          d.stroke = nodeC.dy/nodeC.value*d.value; //top+depth-half of value
-
-          var xStart=[width];
-          nodeC.sourceLinks.forEach(function(targetL, i){
-            if ((targetL.target.x)>xPos&(targetL.target.x)<xStart[0]){
-              xStart[0]=(targetL.target.x);
-            };
-          });
-
-          var xPos0=(Number(xStart)-xPos)/2+Number(xPos)+n*50;
-
-          var curvature = .5;
-
-              var x0 = xPos,
-                  x1 = xPos0,
-                  xi = d3.interpolateNumber(x0, x1),
-                  x2 = xi(curvature),
-                  x3 = xi(1 - curvature),
-                  y0 = yPos,
-                  y01= 20,
-                  y1 = 0;
-               d.path="M" + x0 + "," + y0
-                   + "C" + x2 + "," + y0
-                   + " " + x3 + "," + y1
-                   //+ " " + x3 + "," + y01
-                   + " " + x1 + "," + y1;    
-    });
-  };
-
-sankey.loopCurve=function() {
-  var ssy=0,
-      sn=0,
-      strokeSt=0;
-      snodeThis=''; // start counters
-  var esy=0,
-      en=0,
-      strokeEn=0;
-      enodeThis=''; // end counters
-
-  loop.forEach(function(d){ // rework from here
-
-          var nodeSt=d.source;
-          //d.source=graph.nodes[nodeSt];
-          var nodeEn=d.target;
-          //d.target=graph.nodes[nodeEn];
-
-
-          if (nodeSt!==snodeThis){
-            snodeThis=nodeSt;
-            ssy=0;
-            sn=0;
-            strokeSt=0;
-          } else {
-            sn++;
-          };
-
-          if (nodeEn!==enodeThis){
-            enodeThis=nodeEn;
-            esy=0;
-            en=0;
-            strokeEn=0;
-          } else {
-            en++;
-          };
-
-
-      nodeSt=nodes[nodeSt];
-      nodeEn=nodes[nodeEn];
-      d.nameEnd=nodeEn.name;
-
-      var xsPos=nodeSt.x+nodeSt.dx; 
-      var ysPos=nodeSt.y+nodeSt.dy-(nodeSt.dy/nodeSt.value*d.value/2)-ssy; 
-      ssy+=(nodeSt.dy/nodeSt.value*d.value); //top+depth-half of value
-      d.stroke = nodeSt.dy/nodeSt.value*d.value;
-      var ysPos0 = nodeSt.y+nodeSt.dy+ d.stroke;
-
-      var xePos=nodeEn.x;
-      var yePos=nodeEn.y+nodeEn.dy-(nodeEn.dy/nodeEn.value*d.value/2)-esy; 
-      esy+=(nodeEn.dy/nodeEn.value*d.value);
-      var yePos0 = nodeEn.y+nodeEn.dy+ d.stroke; //top+depth-half of value
-
-      var xsPosAnc1=xsPos+nodeSt.dx;
-      if (sn=0){
-        var ysPosAnc1=0;
-      } else {
-        var xsPosAnc2=0;
-      };
-      var xsPosArm=xsPos-nodeSt.dx/3;
-
-
-      if ((nodeEn.x + nodeEn.dx*3)>=nodeSt.x 
-        //&& (nodeEn.x - nodeEn.dx*4)<nodeSt.x
-        ){
-        // && nodeSt.y<nodeEn.y){ // top node to bottom
-        d.path="M" + xsPos + "," + ysPos
-                +"C" + (xsPos+nodeSt.dx*3) + ","+ ysPos
-                +" "+ (xePos-nodeEn.dx*3)+","+(yePos)
-                +" "+ (xePos)+","+(yePos);
-                
-      } else {
-           d.path="M" + xsPos + "," + ysPos
-                +"C" + (xsPos+d.stroke*1.5) + ","+ (ysPos)
-                +" "+ (xsPos+d.stroke*1.5)+","+(ysPos0)
-                +" "+ xsPos+","+(ysPos0)
-                +"L"+(xsPos-nodeSt.dx/3)+","+(ysPos0)
-                +"C"+(xsPos-nodeSt.dx*3)+","+(ysPos0)
-                +" "+ (xePos+nodeEn.dx*3)+","+(yePos0)
-                +" "+ (xePos+nodeEn.dx/3)+","+(yePos0)
-                +"L"+xePos+","+(yePos0)
-                +"C" + (xePos-d.stroke*1.5) + ","+ (yePos0)
-                +" "+ (xePos-d.stroke*1.5)+","+yePos
-                +" "+ xePos+","+yePos;
-                
-      };
-        
-    });
-};
-
-sankey.otherCurve=function(){
-
-  other.forEach(function(d){
-      //Mx1,y1 x2,x2
-      var stNode;
-      var enNode;
-
-      nodes.forEach(function(node){
-        //console.log(node.name, d.source, d.target);
-        if (node.name===d.source){stNode=node};
-        if (node.name===d.target){enNode=node};
-      });
-
-      var x1=stNode.dx+stNode.x+2;
-      var y1=stNode.dy/2+stNode.y;
-      var x2=enNode.x-2;
-      var y2=enNode.dy/2+enNode.y;
-      //console.log(x1,y1,x2,y2);
-
-      d.path="M" + x1 + "," + y1
-          + " " + x2 + "," + y2;
-
-  });
-
-};
-
+  //sankey.loopCurve (shift to this table)
 
 
 
@@ -374,15 +154,16 @@ sankey.otherCurve=function(){
    loop.forEach(function(circular) {
         var sourceC = circular.source,
             targetC = circular.target;
-
-            //rework later;
-
-
+      if (typeof sourceC === "number") sourceC = circular.source = nodes[circular.source]; //making sure to get objects not numbers
+      if (typeof targetC === "number") targetC = circular.target = nodes[circular.target];
+      sourceC.sourceLinks.push(circular);
+      targetC.targetLinks.push(circular); 
+      // so this has shifted the numbers of connection into name-base labels, 
+      // this has also added the feedback loops into the source/target counts... and can be internally counted below
     });
 
-    nodes.forEach(function(node){
-        //console.log(node);
-    });
+
+
   } // end of ComputeNodeLinks
 
   // Compute the value (size) of each node by summing the associated links.
@@ -391,6 +172,7 @@ sankey.otherCurve=function(){
       node.value = Math.max(
         d3.sum(node.sourceLinks, value),//+d3.sum(node.sourceAdds, value),
         d3.sum(node.targetLinks, value)//+d3.sum(node.sourceLosses, value)
+        //now has add/loss/loop. . .
       );
     });
   }
@@ -410,16 +192,19 @@ sankey.otherCurve=function(){
         node.x = x;
         node.dx = nodeWidth;
         node.sourceLinks.forEach(function(link) {
-          if (link.target!==-1){
-          nextNodes.push(link.target);
-        };
+          //console.log(link);
+          if (link.type!=="loss" && link.type!=="loop"){ // && link.type!=="loop") does this need to be shited to exclude loops (doesn't seem likely)
+              nextNodes.push(link.target);
+          } else if (link.type==="loop"){ 
+              //console.log(link);// && link.type!=="loop") does this need to be shited to exclude loops (doesn't seem likely)
+              //nextNodes.push(link.target);
+          };
         });
       });
       remainingNodes = nextNodes;
       ++x;
     }
 
-    //
     moveSinksRight(x);
     scaleNodeBreadths((width - nodeWidth) / (x - 1));
   }
@@ -477,6 +262,10 @@ sankey.otherCurve=function(){
 
       links.forEach(function(link) {
         link.dy = link.value * ky;
+      });
+
+      loop.forEach(function(loops) {
+        loop.dy = loop.value * ky;
       });
     }
 
@@ -552,11 +341,13 @@ sankey.otherCurve=function(){
     nodes.forEach(function(node) {
       node.sourceLinks.sort(ascendingTargetDepth);
       node.targetLinks.sort(ascendingSourceDepth);
+      console.log(node.targetLinks);
     });
 
     nodes.forEach(function(node) {
       var sy = 0, ty = 0;
             var posLinks=[],
+                postLinks=[],
                 fb = 0;
       loop.forEach(function(feedback){
         if (feedback.name===node.name){
@@ -565,23 +356,32 @@ sankey.otherCurve=function(){
       });
 
       node.sourceLinks.forEach(function(link) {
-        //console.log(link);
         if (link.dy){
           posLinks.push(link.dy);
         }; // full value is full height, need from zero to start at dy+loss.dy
       });
-          //console.log(node.name,node.value,d3.sum(posLinks),fb/node.value*node.dy);
-          sy=node.dy-d3.sum(posLinks)-(fb/node.value*node.dy);
-      //take out the undefined additions here....
+          sy=node.dy-d3.sum(posLinks)-(fb*node.dy/node.value);
+          if (sy===NaN || sy < 1){
+            sy=node.dy-d3.sum(posLinks);
+          };
+          console.log(sy, node.name);
 
       node.sourceLinks.forEach(function(link) {
         link.sy = sy;
         sy += link.dy;
       });
 
-      node.targetLinks.forEach(function(link) {
+
+      node.targetLinks.forEach(function(link, i) {
+        
+        if (ty || i===0){
         link.ty = ty;
         ty += link.dy;
+      } else {
+        ty=link.value/node.value*node.dy; // where am I missing this catch earlier?
+        link.ty=ty;
+        ty+=link.dy;
+      };
       });
     });
 
