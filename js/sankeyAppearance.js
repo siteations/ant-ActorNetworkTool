@@ -570,7 +570,7 @@ function highlight(dt){
 
             if (d3.select("#placeholder")){d3.select("#placeholder").remove();};
             var file='';//this should hold the new string
-            var src='<img id="placeholder" src="img/'+'Lower'+'.jpg" />'; 
+            var src='<img id="placeholder" src="img/'+nodeOrigin.slice(1)+'.jpg" />'; 
             $('#imagebox').prepend(src);
             d3.select("#placeholder").attr("width", "400px");
             d3.select("#placeholder").attr("height", "300px");
