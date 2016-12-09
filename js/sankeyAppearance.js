@@ -1,4 +1,7 @@
 function sankeyGradients(){
+  //var hc="#95c7bf";
+  var hc="#93b12b";
+  //var hc="#ff006a";
 
 
     var gradientHA = svg.append("defs")
@@ -12,12 +15,12 @@ function sankeyGradients(){
 
           gradientHA.append("stop")
                   .attr("offset", "50%")
-                  .attr("stop-color", "#ff006a")
+                  .attr("stop-color", hc)// demo blue=#95c7bf, demo pink=#ff006a
                   .attr("stop-opacity", .25);        
 
           gradientHA.append("stop")
                   .attr("offset", "100%")
-                  .attr("stop-color", "#ff006a")// pink
+                  .attr("stop-color", hc)// pink
                   .attr("stop-opacity", 1);
 
     var gradientLA = svg.append("defs")
@@ -26,12 +29,12 @@ function sankeyGradients(){
 
           gradientLA.append("stop")
                   .attr("offset", "0%")
-                  .attr("stop-color", "#ff006a")
+                  .attr("stop-color", hc)
                   .attr("stop-opacity", 1);
 
           gradientLA.append("stop")
                   .attr("offset", "50%")
-                  .attr("stop-color", "#ff006a")
+                  .attr("stop-color", hc)
                   .attr("stop-opacity", .25);        
 
           gradientLA.append("stop")
@@ -204,12 +207,15 @@ function strokedev(){
 
 // all the highlight functions-------------------------------- secondary shifts to color/appearance
 function highlight(dt){
+    //var hc="#95c7bf";
+    var hc="#93b12b";
+  //var hc="#ff006a";
             //dt=d3.select(this); which is the starting link
             //console.log(dt);
 
             var col="";
             if ((dt.attr("class")==="link"||dt.attr("class")==="loop") && (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts")){
-                col="#ff006a";
+                col=hc;
             } else if ((dt.attr("class")==="link"||dt.attr("class")==="loop") && opt.c==="colorGradients"){
                 col="#333333";
             } else if (dt.attr("class")==="adding" && (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts")){
@@ -225,20 +231,20 @@ function highlight(dt){
                     if (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts"){ // when in greyscales or not
                       // if class  link-loop-source, if link-loop-target... stroke for all
                       if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="loss"){
-                        d3.select(dt.attr("sc")).attr("fill", "#ff006a");
-                        d3.select(dt.attr("sc")+"Node").attr("fill", "#ff006a");
-                        d3.select(dt.attr("sc")+"Node").attr("stroke", "#ff006a");
+                        d3.select(dt.attr("sc")).attr("fill", hc);
+                        d3.select(dt.attr("sc")+"Node").attr("fill", hc);
+                        d3.select(dt.attr("sc")+"Node").attr("stroke", hc);
                         if (d3.select(dt.attr("sc")+"Arrow")){ 
-                        d3.select(dt.attr("sc")+"Arrow").attr("fill", "#ff006a");
+                        d3.select(dt.attr("sc")+"Arrow").attr("fill", hc);
                         };// arrow heads add if not null
                       };
 
                       if (dt.attr("class")==="link"||dt.attr("class")==="loop"|| dt.attr("class")==="adding"){ 
-                        d3.select(dt.attr("tg")).attr("fill", "#ff006a");
-                        d3.select(dt.attr("tg")+"Node").attr("fill", "#ff006a");
-                        d3.select(dt.attr("tg")+"Node").attr("stroke", "#ff006a");
+                        d3.select(dt.attr("tg")).attr("fill", hc);
+                        d3.select(dt.attr("tg")+"Node").attr("fill", hc);
+                        d3.select(dt.attr("tg")+"Node").attr("stroke", hc);
                         if (d3.select(dt.attr("tg")+"Arrow")){ 
-                          d3.select(dt.attr("tg")+"Arrow").attr("fill", "#ff006a");
+                          d3.select(dt.attr("tg")+"Arrow").attr("fill", hc);
                           };
                       };
 
@@ -300,6 +306,9 @@ function highlight(dt){
 
 
     function highlightN(dt){
+        //var hc="#95c7bf";
+        var hc="#93b12b";
+        //var hc="#ff006a";
             //dt=d3.select(this);
             //NodeOver and NodeIcon for the bracket interactions to be more general.
             var nodeOrigin='';
@@ -343,7 +352,7 @@ function highlight(dt){
             var colA="";
             var colL="";
             if (opt.c==="greysContrast"|| opt.c==="defaultColor"|| opt.c==="googleFonts"){
-                col="#ff006a";
+                col=hc;
                 colA="url(#gradHA)";
                 colL="url(#gradLA)";
             } else if (opt.c==="colorGradients"){

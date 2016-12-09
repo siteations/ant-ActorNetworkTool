@@ -47,7 +47,9 @@
     padding:20px 40px; /* Same syntax as box-shadow */
 }
 
-#chart {
+#chart,
+#icoSpc,
+#icoBar {
   overflow: hidden; /* can also be "auto" */
 }
 
@@ -193,9 +195,10 @@
       <div id="chart">
         <div id="titleBar"><span id="offt" class="col-md-6"></span><span id="titlet" class="col-md-6"><h4 style="text-align:center"> Custom Title Sits Here</h4></span></div>
         <br>
-        <div id="icoSpc"></div>
         <br>
-        <div id="icoNav"></div>
+        <div id="icoSpc"><span class="col-md-1"></span><span class="col-md-10" id="charts"></span><span class="col-md-1"></span></div>
+        <br>
+        <div id="icoBar"><span class="col-md-1"></span><span class="col-md-10" id="icoNav"></span><span class="col-md-1"></span></div>
         <p style="text-align:center; opacity:.5; font-size:8pt">[Icons, Timeline, or Tab Navigation Aides Above]</p>
         <div id="annoBox"><span class="col-md-1"></span><span id="imagebox" class="col-md-5"><p id="caption1"></p></span>
           <span id="textbox" class="col-md-5"><h5 id="textTitle" style="text-align:center"></h5><p id="textMain"></p></span><span class="col-md-1"></span><br>
@@ -272,12 +275,12 @@ opt=radioC();
 var units = "Units";
 
 
-var width = 1100;
+var width = 900;
 
 var height = 340; // should make this very adaptable for legibility
 
 // append the svg canvas to the page
-var svg = d3.select("#chart").insert("svg", "#icoSpc")
+var svg = d3.select("#charts").append("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
@@ -307,7 +310,7 @@ var path = sankey.link();
 
 
 //-------------------------------------------------------------------------DATA OPTIONS opt.l -------------------------------------------------------------------------
-var datasources={defaultLinks:"data/sankey.csv",
+var datasources={defaultLinks:"data/sankeySimple.csv",
                   addLoss:"data/sankeyAddLoss.csv",
                   feedback: "data/sankeyLoop.csv",
                   secondary:"data/sankeySecondary.csv",
@@ -321,7 +324,7 @@ var load=datasources[opt.l];
 
       //var purorg=["#9D0AF0", "#A51CDD", "#C50AF0", "#C91CDD", "#CE2FCA", "#D341B7", "#D754A4", "#DC6692", "#E1797F", "#E58B6C", "#EA9E59", "#EFB046", "#F4C334"];
       //var aquayell=["#38a6b4", "#48acaf", "#59b1aa", "#69b7a5", "#79bca1", "#8ac29c", "#9ac797", "#aacd92", "#bbd38d", "#cbd888", "#dbde84", "#ece37f", "#fce97a"];
-
+      var place=["#438075", "#95c7bf", "#667b1f", "#bbd65e", "#89a690", "#e1e8e2", "#b8bb7a", "#e5e6cf"]
       //var blues=["#253494", "#253494", "#2d539b", "#3571a1", "#3e8fa7", "#47acae", "#51b4a1", "#5cbb95", "#67c18a", "#72c881", "#81ce7e", "#9dd58a", "#b7db97", "#cee2a5"];
 
       /*var color = d3.scale.linear()
@@ -334,8 +337,8 @@ var load=datasources[opt.l];
             format = function(d) { return formatNumber(d) + " " + units; },
                 color = d3.scale.ordinal()
                 .domain(d3.range(7))
-                .range(colorbrewer.YlGnBu[9]);
-                //.range(colorbrewer.YlGnBu[9])
+                //.range(colorbrewer.YlGnBu[9]);
+                .range(place);
             } else if (opt.c==="greysContrast"){
             var formatNumber = d3.format(",.0f"),    // zero decimal places
             format = function(d) { return formatNumber(d) + " " + units; },
